@@ -12,6 +12,16 @@ export default function Home() {
             Penelitian dan Pengembangan Pemantauan Sains Atmosfer
           </p>
           <div className="flex flex-wrap justify-center gap-4">
+            <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-white">
+              Lihat Data Terkini
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white/20"
+            >
+              Tentang Kami
+            </Button>
           </div>
         </div>
       </div>

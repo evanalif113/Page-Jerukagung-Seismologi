@@ -33,7 +33,7 @@ export default function Navbar() {
                 <Image src="/img/logo.png" alt="Jerukagung Meteorologi Logo" fill className="object-contain" priority />
               </div>
               <div>
-                <h1 className="text-lg font-medium leading-tight">Jerukagung Meteorologi</h1>
+                <h1 className="text-lg font-medium leading-tight text-white">Jerukagung Meteorologi</h1>
                 <p className="text-xs text-primary-100">Pusat Informasi Iklim dan Cuaca</p>
               </div>
             </Link>
