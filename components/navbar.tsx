@@ -33,8 +33,8 @@ export default function Navbar() {
                 <Image src="/img/logo.png" alt="Jerukagung Meteorologi Logo" fill className="object-contain" priority />
               </div>
               <div>
-                <h1 className="text-lg font-medium leading-tight text-white">Jerukagung Meteorologi</h1>
-                <p className="text-xs text-primary-100">Pusat Informasi Iklim dan Cuaca</p>
+                <h1 className="text-lg font-medium leading-tight text-white">Jerukagung Seismologi</h1>
+                <p className="text-xs text-primary-100">Riset dan Pengembangan Ilmu Kebumian</p>
               </div>
             </Link>
             <div className="hidden md:flex items-center space-x-4">
@@ -81,8 +81,8 @@ export default function Navbar() {
                       <Image src="/img/logo.png" alt="Jerukagung Meteorologi Logo" fill className="object-contain" />
                     </div>
                     <div>
-                      <h2 className="text-base font-medium">Jerukagung Meteorologi</h2>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Pusat Informasi Iklim dan Cuaca</p>
+                      <h2 className="text-base font-medium">Jerukagung Seismologi</h2>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Riset dan Pengembangan Ilmu Kebumian</p>
                     </div>
                   </div>
                   <div className="flex flex-col space-y-1">

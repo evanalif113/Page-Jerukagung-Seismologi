@@ -13,10 +13,10 @@ export default function Footer() {
                 <div className="relative w-10 h-10 mr-2">
                   <Image src="/img/logo.png" alt="Jerukagung Meteorologi Logo" fill className="object-contain" />
                 </div>
-                <span className="text-lg font-medium">Jerukagung Meteorologi</span>
+                <span className="text-lg font-medium">Jerukagung Seismologi</span>
               </div>
               <p className="text-sm text-primary-100 mb-4">
-                Pusat penelitian dan pengembangan pemantauan sains atmosfer untuk wilayah Jerukagung dan sekitarnya.
+                Pusat Riset dan Pengembangan Kebumian.
               </p>
               <div className="flex space-x-3">
                 <a href="#" className="bg-white/10 hover:bg-white/20 p-2 rounded-full">
@@ -27,7 +27,7 @@ export default function Footer() {
                   <Twitter className="h-5 w-5" />
                   <span className="sr-only">Twitter</span>
                 </a>
-                <a href="#" className="bg-white/10 hover:bg-white/20 p-2 rounded-full">
+                <a href="https://www.instagram.com/jeris_seismologi/" className="bg-white/10 hover:bg-white/20 p-2 rounded-full">
                   <Instagram className="h-5 w-5" />
                   <span className="sr-only">Instagram</span>
                 </a>
