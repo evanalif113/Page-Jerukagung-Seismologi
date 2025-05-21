@@ -16,7 +16,7 @@ export default function Footer() {
                 <span className="text-lg font-medium">Jerukagung Seismologi</span>
               </div>
               <p className="text-sm text-primary-100 mb-4">
-                Pusat Riset dan Pengembangan Kebumian.
+                Pusat Riset dan Pengembangan Ilmu Kebumian.
               </p>
               <div className="flex space-x-3">
                 <a href="#" className="bg-white/10 hover:bg-white/20 p-2 rounded-full">

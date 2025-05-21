@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app"
-import { getDatabase } from "firebase/database"
-import { getAnalytics } from "firebase/analytics"
+import { getDatabase, ref, query, orderByKey, limitToLast, get, onValue, off, startAt, endAt} from "firebase/database"
 
+// Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDalcCwwOthPMjC3umkpQECqlQQj699FTY",
   authDomain: "staklimjerukagung.firebaseapp.com",
@@ -10,18 +10,11 @@ const firebaseConfig = {
   storageBucket: "staklimjerukagung.appspot.com",
   messagingSenderId: "763003005982",
   appId: "1:763003005982:web:8ce295eda92c6b9112d20f",
-  measurementId: "G-DRL05TMRNT",
+  measurementId: "G-DRL05TMRNT"
 }
 
-let app
-let analytics
-let database
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
+const database = getDatabase(app)
 
-// Initialize Firebase only on client side
-if (typeof window !== "undefined") {
-  app = initializeApp(firebaseConfig)
-  analytics = getAnalytics(app)
-  database = getDatabase(app)
-}
-
-export { app, analytics, database }
+export { database, ref, query, orderByKey, limitToLast, get, onValue, off, startAt, endAt }
