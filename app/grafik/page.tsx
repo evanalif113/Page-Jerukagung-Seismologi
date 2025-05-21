@@ -277,41 +277,6 @@ export default function GrafikPage() {
     },
   }
 
-  const scatterConfig = {
-    data: [
-      {
-        x: temperatures,
-        y: humidity,
-        mode: "markers",
-        type: "scatter",
-        marker: { color: "#00a0e1" },
-      },
-    ],
-    layout: {
-      ...commonLayout,
-      title: {
-        text: "Scatter Suhu dan Kelembapan",
-        font: {
-          size: 16,
-        },
-      },
-      xaxis: {
-        ...commonLayout.xaxis,
-        title: {
-          ...commonLayout.xaxis.title,
-          text: "Suhu (°C)",
-        },
-      },
-      yaxis: {
-        ...commonLayout.yaxis,
-        title: {
-          ...commonLayout.yaxis.title,
-          text: "Kelembapan (%)",
-        },
-      },
-    },
-  }
-
   const stackedConfig = {
     data: [
       {
@@ -378,6 +343,7 @@ export default function GrafikPage() {
                 <SelectItem value="id-02">Sensor 2</SelectItem>
                 <SelectItem value="id-03">Sensor 3</SelectItem>
                 <SelectItem value="id-04">Sensor 4</SelectItem>
+                <SelectItem value="id-05">Sensor 5</SelectItem>
               </SelectContent>
             </Select>
 
@@ -417,7 +383,6 @@ export default function GrafikPage() {
             <TabsTrigger value="pressure">Tekanan</TabsTrigger>
             <TabsTrigger value="dew">Titik Embun</TabsTrigger>
             <TabsTrigger value="volt">Tegangan</TabsTrigger>
-            <TabsTrigger value="scatter">Scatter</TabsTrigger>
             <TabsTrigger value="stacked">Suhu & Embun</TabsTrigger>
           </TabsList>
 
@@ -508,25 +473,6 @@ export default function GrafikPage() {
                   <Plot
                     data={voltConfig.data}
                     layout={voltConfig.layout}
-                    config={{ responsive: true }}
-                    style={{ width: "100%", height: "400px" }}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="scatter">
-            <Card>
-              <CardContent className="pt-6">
-                {loading ? (
-                  <div className="flex justify-center items-center h-[400px]">
-                    <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
-                  </div>
-                ) : (
-                  <Plot
-                    data={scatterConfig.data}
-                    layout={scatterConfig.layout}
                     config={{ responsive: true }}
                     style={{ width: "100%", height: "400px" }}
                   />
