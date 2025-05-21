@@ -38,28 +38,52 @@ export default function Home() {
               Lihat Semua <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+              date: "5 Mei 2025",
+              title: "Laporan Cuaca Bulanan: April 2025",
+              summary:
+                "Ringkasan kondisi cuaca dan iklim selama bulan April 2025 di wilayah Jerukagung dan sekitarnya.",
+              thumbnail: "/images/april-2025-thumbnail.jpg",
+              },
+              {
+              date: "7 April 2025",
+              title: "Laporan Cuaca Bulanan: Maret 2025",
+              summary:
+                "Ringkasan kondisi cuaca dan iklim selama bulan Maret 2025 di wilayah Jerukagung dan sekitarnya.",
+              thumbnail: "/images/march-2025-thumbnail.jpg",
+              },
+              {
+              date: "10 Maret 2025",
+              title: "Laporan Cuaca Bulanan: Februari 2025",
+              summary:
+                "Ringkasan kondisi cuaca dan iklim selama bulan Februari 2025 di wilayah Jerukagung dan sekitarnya.",
+              thumbnail: "/images/february-2025-thumbnail.jpg",
+              },
+            ].map((item, i) => (
               <div key={i} className="bg-white dark:bg-gray-800 rounded-md shadow-sm overflow-hidden">
-                <div className="h-48 bg-gray-200 dark:bg-gray-700"></div>
-                <div className="p-4">
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">12 April 2025</p>
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                    Laporan Cuaca Bulanan: Maret 2025
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                    Ringkasan kondisi cuaca dan iklim selama bulan Maret 2025 di wilayah Jerukagung dan sekitarnya.
-                  </p>
-                  <Link
-                    href="#"
-                    className="text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium"
-                  >
-                    Baca Selengkapnya
-                  </Link>
-                </div>
+              <div className="h-48 bg-gray-200 dark:bg-gray-700">
+                <img
+                src={item.thumbnail}
+                alt={item.title}
+                className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="p-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{item.date}</p>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{item.summary}</p>
+                <Link
+                href="#"
+                className="text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium"
+                >
+                Baca Selengkapnya
+                </Link>
+              </div>
               </div>
             ))}
-          </div>
+            </div>
         </div>
       </section>
 
