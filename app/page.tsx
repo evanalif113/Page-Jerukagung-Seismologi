@@ -45,21 +45,21 @@ export default function Home() {
               title: "Laporan Cuaca Bulanan: April 2025",
               summary:
                 "Ringkasan kondisi cuaca dan iklim selama bulan April 2025 di wilayah Jerukagung dan sekitarnya.",
-              thumbnail: "/images/april-2025-thumbnail.jpg",
+              thumbnail: "/img/beritaiklim.jpg",
               },
               {
               date: "7 April 2025",
               title: "Laporan Cuaca Bulanan: Maret 2025",
               summary:
                 "Ringkasan kondisi cuaca dan iklim selama bulan Maret 2025 di wilayah Jerukagung dan sekitarnya.",
-              thumbnail: "/images/march-2025-thumbnail.jpg",
+              thumbnail: "/img/beritaiklim.jpg",
               },
               {
               date: "10 Maret 2025",
               title: "Laporan Cuaca Bulanan: Februari 2025",
               summary:
                 "Ringkasan kondisi cuaca dan iklim selama bulan Februari 2025 di wilayah Jerukagung dan sekitarnya.",
-              thumbnail: "/images/february-2025-thumbnail.jpg",
+              thumbnail: "/img/beritaiklim.jpg",
               },
             ].map((item, i) => (
               <div key={i} className="bg-white dark:bg-gray-800 rounded-md shadow-sm overflow-hidden">
