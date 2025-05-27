@@ -2,6 +2,70 @@ import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube } from "lucide-react"
 
+function NavigationLinks() {
+  return (
+    <ul className="space-y-2">
+      <li>
+        <Link href="/" className="text-primary-100 hover:text-white text-sm">
+          Beranda
+        </Link>
+      </li>
+      <li>
+        <Link href="/riset" className="text-primary-100 hover:text-white text-sm">
+          Riset
+        </Link>
+      </li>
+      <li>
+        <Link href="/timkami" className="text-primary-100 hover:text-white text-sm">
+          Tim Kami
+        </Link>
+      </li>
+      <li>
+        <Link href="/data" className="text-primary-100 hover:text-white text-sm">
+          Data
+        </Link>
+      </li>
+      <li>
+        <Link href="/grafik" className="text-primary-100 hover:text-white text-sm">
+          Grafik
+        </Link>
+      </li>
+    </ul>
+  )
+}
+
+function ServiceLinks() {
+  return (
+    <ul className="space-y-2">
+      <li>
+        <Link href="#" className="text-primary-100 hover:text-white text-sm">
+          Pemantauan Cuaca
+        </Link>
+      </li>
+      <li>
+        <Link href="#" className="text-primary-100 hover:text-white text-sm">
+          Analisis Data
+        </Link>
+      </li>
+      <li>
+        <Link href="#" className="text-primary-100 hover:text-white text-sm">
+          Penelitian
+        </Link>
+      </li>
+      <li>
+        <Link href="#" className="text-primary-100 hover:text-white text-sm">
+          Publikasi
+        </Link>
+      </li>
+      <li>
+        <Link href="#" className="text-primary-100 hover:text-white text-sm">
+          Pelatihan
+        </Link>
+      </li>
+    </ul>
+  )
+}
+
 export default function Footer() {
   return (
     <footer>
@@ -40,64 +104,12 @@ export default function Footer() {
 
             <div>
               <h3 className="text-lg font-medium mb-4">Navigasi</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/" className="text-primary-100 hover:text-white text-sm">
-                    Beranda
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/riset" className="text-primary-100 hover:text-white text-sm">
-                    Riset
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/timkami" className="text-primary-100 hover:text-white text-sm">
-                    Tim Kami
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/data" className="text-primary-100 hover:text-white text-sm">
-                    Data
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/grafik" className="text-primary-100 hover:text-white text-sm">
-                    Grafik
-                  </Link>
-                </li>
-              </ul>
+              <NavigationLinks />
             </div>
 
             <div>
               <h3 className="text-lg font-medium mb-4">Layanan</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="#" className="text-primary-100 hover:text-white text-sm">
-                    Pemantauan Cuaca
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-primary-100 hover:text-white text-sm">
-                    Analisis Data
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-primary-100 hover:text-white text-sm">
-                    Penelitian
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-primary-100 hover:text-white text-sm">
-                    Publikasi
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-primary-100 hover:text-white text-sm">
-                    Pelatihan
-                  </Link>
-                </li>
-              </ul>
+              <ServiceLinks />
             </div>
 
             <div>

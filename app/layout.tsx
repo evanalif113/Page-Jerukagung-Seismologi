@@ -14,7 +14,7 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: "Sistem Informasi Iklim Jerukagung Meteorologi",
+  title: "Jerukagung Seismologi",
   description: "Penelitian dan Pengembangan Pemantauan Sains Atmosfer Jerukagung Seismologi",
   icons: {
     icon: [

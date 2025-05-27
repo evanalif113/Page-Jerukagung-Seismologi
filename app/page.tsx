@@ -2,26 +2,16 @@ import { CloudSun, LineChart, FlaskRoundIcon as Flask, ArrowRight } from "lucide
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-export default function Home() {
+export default function BeritaPage() {
   return (
     <>
       <div className="mainpage">
         <div className="mainpagetext">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Pusat Informasi Iklim Jerukagung</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Selamat Datang di Pusat Informasi Jerukagung Seismologi</h1>
           <p className="text-xl md:text-2xl drop-shadow-lg mb-8">
-            Penelitian dan Pengembangan Pemantauan Sains Atmosfer
+            Penelitian dan Pengembangan Instrumen Pemantauan Sains Atmosfer
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-white">
-              Lihat Data Terkini
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white/20"
-            >
-              Tentang Kami
-            </Button>
           </div>
         </div>
       </div>
