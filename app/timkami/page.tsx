@@ -5,45 +5,21 @@ export default function TimKamiPage() {
   const teamMembers = [
     {
       name: "Evan Alif Widhyatma",
-      role: "Lead Researcher",
-      skills: "Bahasa: C++",
+      role: "Research Assist",
       image: "https://avatars.githubusercontent.com/u/56740250?v=4",
       github: "https://github.com/evanalif113",
     },
     {
       name: "Muhammad Rizal Arfiyan",
       role: "Backend Developer",
-      skills: "Bahasa: Golang",
       image: "https://avatars.githubusercontent.com/u/19503666?v=4",
       github: "https://github.com/rizalarfiyan",
     },
     {
       name: "Bagus Alfian Yusuf",
       role: "Software Developer",
-      skills: "Bahasa: PHP",
       image: "https://avatars.githubusercontent.com/u/59005468?v=4",
       github: "https://github.com/Fiyanz",
-    },
-    {
-      name: "Anon1",
-      role: "Firmware Enginer",
-      skills: "Etiam sit amet orci eget eros faucibus tincidunt.",
-      image: "/img/userprofile/anon.jpg",
-      github: "#",
-    },
-    {
-      name: "Anon2",
-      role: "Hardware Enginer",
-      skills: "Etiam sit amet orci eget eros faucibus tincidunt.",
-      image: "/img/userprofile/anon.jpg",
-      github: "#",
-    },
-    {
-      name: "Anon3",
-      role: "UI/UX Researcher",
-      skills: "Etiam sit amet orci eget eros faucibus tincidunt.",
-      image: "/img/userprofile/anon.jpg",
-      github: "#",
     },
   ]
 
@@ -59,7 +35,6 @@ export default function TimKamiPage() {
             <div className="p-6 text-center">
               <h5 className="text-xl font-semibold mb-1">{member.name}</h5>
               <p className="mb-1">{member.role}</p>
-              <p className="text-gray-600 text-sm mb-4">{member.skills}</p>
               <a
                 href={member.github}
                 target="_blank"
