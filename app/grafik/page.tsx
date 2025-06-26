@@ -5,13 +5,12 @@ import dynamic from "next/dynamic"
 import { database } from "@/lib/firebase"
 import { ref, query, orderByKey, limitToLast, get } from "firebase/database"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { RefreshCw, Download } from "lucide-react"
 
 // Dynamically import Plotly to avoid SSR issues
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false })
+const Plot = dynamic(() => import("react-plotly.js"), { ssr: true })
 
 export default function GrafikPage() {
   // State for data
@@ -46,7 +45,7 @@ export default function GrafikPage() {
 
         snapshot.forEach((childSnapshot) => {
           const data = childSnapshot.val()
-          const timeFormatted = new Date(data.timestamp * 1000).toLocaleTimeString([], {
+          const timeFormatted = new Date(data.timestamp * 1000).toLocaleTimeString("id-ID", { // Menggunakan locale id-ID
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
@@ -69,7 +68,14 @@ export default function GrafikPage() {
         setVolt(newVolt)
         setError(null)
       } else {
-        setError("Tidak ada data yang tersedia.")
+        // Reset data jika tidak ada
+        setTimestamps([])
+        setTemperatures([])
+        setHumidity([])
+        setPressure([])
+        setDew([])
+        setVolt([])
+        setError("Tidak ada data yang tersedia untuk periode ini.")
       }
     } catch (err) {
       console.error("Error fetching data: ", err)
@@ -106,220 +112,84 @@ export default function GrafikPage() {
       gridcolor: "rgba(203, 213, 225, 0.2)",
       title: {
         text: "Waktu (HH:MM:SS)",
-        font: {
-          size: 14,
-          color: "#475569",
-        },
+        font: { size: 14, color: "#475569" },
       },
     },
     yaxis: {
       gridcolor: "rgba(203, 213, 225, 0.2)",
-      title: {
-        font: {
-          size: 14,
-          color: "#475569",
-        },
-      },
+      title: { font: { size: 14, color: "#475569" } },
     },
     legend: {
       orientation: "h",
-      y: -0.2,
-      font: {
-        size: 12,
-      },
+      y: -0.3,
+      yanchor: 'top',
+      font: { size: 12 },
     },
-    hovermode: "closest",
+    hovermode: "x unified", // Peningkatan UX
   }
 
   // Chart configurations
   const temperatureConfig = {
-    data: [
-      {
-        x: timestamps,
-        y: temperatures,
-        type: "scatter",
-        mode: "lines+markers",
-        name: "Suhu Lingkungan (°C)",
-        line: { color: "#00a0e1" },
-      },
-    ],
+    data: [{
+      x: timestamps,
+      y: temperatures,
+      type: "scatter",
+      mode: "lines+markers",
+      name: "Suhu Lingkungan (°C)",
+      line: { color: "#ef4444" }, // Warna merah
+    }],
     layout: {
       ...commonLayout,
-      title: {
-        text: "Suhu Lingkungan (°C)",
-        font: {
-          size: 16,
-        },
-      },
-      yaxis: {
-        ...commonLayout.yaxis,
-        title: {
-          ...commonLayout.yaxis.title,
-          text: "Suhu Lingkungan (°C)",
-        },
-      },
+      title: { text: "Suhu Lingkungan (°C)", font: { size: 16 } },
+      yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Suhu (°C)" } },
     },
   }
 
   const humidityConfig = {
-    data: [
-      {
-        x: timestamps,
-        y: humidity,
-        type: "scatter",
-        mode: "lines+markers",
-        name: "Kelembapan Relatif (%)",
-        line: { color: "#00548c" },
-      },
-    ],
+    data: [{
+      x: timestamps,
+      y: humidity,
+      type: "scatter",
+      mode: "lines+markers",
+      name: "Kelembapan Relatif (%)",
+      line: { color: "#3b82f6" }, // Warna biru
+    }],
     layout: {
       ...commonLayout,
-      title: {
-        text: "Kelembapan Relatif (%)",
-        font: {
-          size: 16,
-        },
-      },
-      yaxis: {
-        ...commonLayout.yaxis,
-        title: {
-          ...commonLayout.yaxis.title,
-          text: "Kelembapan Relatif (%)",
-        },
-      },
-    },
-  }
-
-  const dewConfig = {
-    data: [
-      {
-        x: timestamps,
-        y: dew,
-        type: "scatter",
-        mode: "lines+markers",
-        name: "Titik Embun (°C)",
-        line: { color: "#0077b6" },
-      },
-    ],
-    layout: {
-      ...commonLayout,
-      title: {
-        text: "Titik Embun (°C)",
-        font: {
-          size: 16,
-        },
-      },
-      yaxis: {
-        ...commonLayout.yaxis,
-        title: {
-          ...commonLayout.yaxis.title,
-          text: "Titik Embun (°C)",
-        },
-      },
+      title: { text: "Kelembapan Relatif (%)", font: { size: 16 } },
+      yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Kelembapan (%)" } },
     },
   }
 
   const pressureConfig = {
-    data: [
-      {
-        x: timestamps,
-        y: pressure,
-        type: "scatter",
-        mode: "lines+markers",
-        name: "Tekanan Udara (hPa)",
-        line: { color: "#00548c" },
-      },
-    ],
+    data: [{
+      x: timestamps,
+      y: pressure,
+      type: "scatter",
+      mode: "lines+markers",
+      name: "Tekanan Udara (hPa)",
+      line: { color: "#10b981" }, // Warna hijau
+    }],
     layout: {
       ...commonLayout,
-      title: {
-        text: "Tekanan Udara (hPa)",
-        font: {
-          size: 16,
-        },
-      },
-      yaxis: {
-        ...commonLayout.yaxis,
-        title: {
-          ...commonLayout.yaxis.title,
-          text: "Tekanan Udara (hPa)",
-        },
-      },
+      title: { text: "Tekanan Udara (hPa)", font: { size: 16 } },
+      yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tekanan (hPa)" } },
     },
   }
 
-  const voltConfig = {
-    data: [
-      {
-        x: timestamps,
-        y: volt,
-        type: "scatter",
-        mode: "lines+markers",
-        name: "Tegangan (V)",
-        line: { color: "#00a0e1" },
-      },
-    ],
-    layout: {
-      ...commonLayout,
-      title: {
-        text: "Tegangan (V)",
-        font: {
-          size: 16,
-        },
-      },
-      yaxis: {
-        ...commonLayout.yaxis,
-        title: {
-          ...commonLayout.yaxis.title,
-          text: "Tegangan (V)",
-        },
-      },
-    },
-  }
-
-  const stackedConfig = {
-    data: [
-      {
-        x: timestamps,
-        y: temperatures,
-        type: "scatter",
-        mode: "markers",
-        name: "Suhu",
-        marker: { color: "#00a0e1" },
-      },
-      {
-        x: timestamps,
-        y: dew,
-        type: "scatter",
-        mode: "markers",
-        name: "Titik Embun",
-        marker: { color: "#0077b6" },
-      },
-    ],
-    layout: {
-      ...commonLayout,
-      title: {
-        text: "Scatter Suhu dan Titik Embun",
-        font: {
-          size: 16,
-        },
-      },
-      xaxis: {
-        ...commonLayout.xaxis,
-        title: {
-          ...commonLayout.xaxis.title,
-          text: "Waktu",
-        },
-      },
-      yaxis: {
-        ...commonLayout.yaxis,
-        title: {
-          ...commonLayout.yaxis.title,
-          text: "Suhu (°C)",
-        },
-      },
-    },
-  }
+  // Komponen pembungkus Card untuk grafik agar tidak repetitif
+  const ChartCard = ({ config }: { config: { data: any[], layout: any }}) => (
+    <Card>
+      <CardContent className="pt-6">
+        <Plot
+          data={config.data}
+          layout={config.layout}
+          config={{ responsive: true, displayModeBar: false }} // displayModeBar: false untuk UI lebih bersih
+          style={{ width: "100%", height: "400px" }}
+        />
+      </CardContent>
+    </Card>
+  )
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -331,11 +201,11 @@ export default function GrafikPage() {
       </div>
 
       <Card className="mb-6">
-        <CardHeader className="flex flex-row items-center justify-between bg-gray-50 dark:bg-gray-800 border-b">
+        <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-gray-50 dark:bg-gray-800 border-b">
           <CardTitle className="text-xl">Pengaturan Grafik</CardTitle>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <Select value={sensorId} onValueChange={setSensorId}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Pilih Sensor" />
               </SelectTrigger>
               <SelectContent>
@@ -348,7 +218,7 @@ export default function GrafikPage() {
             </Select>
 
             <Select value={dataPoints.toString()} onValueChange={(value) => setDataPoints(Number.parseInt(value))}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Interval Waktu" />
               </SelectTrigger>
               <SelectContent>
@@ -372,134 +242,28 @@ export default function GrafikPage() {
           </div>
         </CardHeader>
       </Card>
-
-      {error ? (
+      
+      {/* PERUBAHAN UTAMA: DARI TABS MENJADI STACKED LAYOUT */}
+      {loading ? (
+        // Tampilan loading terpusat
+        <div className="flex justify-center items-center h-[400px]">
+          <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
+          <p className="ml-4 text-gray-500">Memuat data...</p>
+        </div>
+      ) : error ? (
+        // Tampilan error
         <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-md mb-6">{error}</div>
       ) : (
-        <Tabs defaultValue="temperature" className="w-full">
-          <TabsList className="mb-4 flex flex-wrap bg-gray-50 dark:bg-gray-800 p-1 rounded-md">
-            <TabsTrigger value="temperature">Suhu</TabsTrigger>
-            <TabsTrigger value="humidity">Kelembapan</TabsTrigger>
-            <TabsTrigger value="pressure">Tekanan</TabsTrigger>
-            <TabsTrigger value="dew">Titik Embun</TabsTrigger>
-            <TabsTrigger value="volt">Tegangan</TabsTrigger>
-            <TabsTrigger value="stacked">Suhu & Embun</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="temperature">
-            <Card>
-              <CardContent className="pt-6">
-                {loading ? (
-                  <div className="flex justify-center items-center h-[400px]">
-                    <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
-                  </div>
-                ) : (
-                  <Plot
-                    data={temperatureConfig.data}
-                    layout={temperatureConfig.layout}
-                    config={{ responsive: true }}
-                    style={{ width: "100%", height: "400px" }}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="humidity">
-            <Card>
-              <CardContent className="pt-6">
-                {loading ? (
-                  <div className="flex justify-center items-center h-[400px]">
-                    <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
-                  </div>
-                ) : (
-                  <Plot
-                    data={humidityConfig.data}
-                    layout={humidityConfig.layout}
-                    config={{ responsive: true }}
-                    style={{ width: "100%", height: "400px" }}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="pressure">
-            <Card>
-              <CardContent className="pt-6">
-                {loading ? (
-                  <div className="flex justify-center items-center h-[400px]">
-                    <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
-                  </div>
-                ) : (
-                  <Plot
-                    data={pressureConfig.data}
-                    layout={pressureConfig.layout}
-                    config={{ responsive: true }}
-                    style={{ width: "100%", height: "400px" }}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="dew">
-            <Card>
-              <CardContent className="pt-6">
-                {loading ? (
-                  <div className="flex justify-center items-center h-[400px]">
-                    <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
-                  </div>
-                ) : (
-                  <Plot
-                    data={dewConfig.data}
-                    layout={dewConfig.layout}
-                    config={{ responsive: true }}
-                    style={{ width: "100%", height: "400px" }}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="volt">
-            <Card>
-              <CardContent className="pt-6">
-                {loading ? (
-                  <div className="flex justify-center items-center h-[400px]">
-                    <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
-                  </div>
-                ) : (
-                  <Plot
-                    data={voltConfig.data}
-                    layout={voltConfig.layout}
-                    config={{ responsive: true }}
-                    style={{ width: "100%", height: "400px" }}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="stacked">
-            <Card>
-              <CardContent className="pt-6">
-                {loading ? (
-                  <div className="flex justify-center items-center h-[400px]">
-                    <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
-                  </div>
-                ) : (
-                  <Plot
-                    data={stackedConfig.data}
-                    layout={stackedConfig.layout}
-                    config={{ responsive: true }}
-                    style={{ width: "100%", height: "400px" }}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        // Layout bertumpuk untuk semua grafik
+        <div className="space-y-6">
+          <ChartCard config={temperatureConfig} />
+          <ChartCard config={humidityConfig} />
+          <ChartCard config={pressureConfig} />
+          
+          {/* Anda bisa menambahkan grafik lain di sini jika diperlukan, contoh: */}
+          {/* <ChartCard config={dewConfig} /> */}
+          {/* <ChartCard config={voltConfig} /> */}
+        </div>
       )}
     </div>
   )
