@@ -18,8 +18,8 @@ export default function Navbar() {
     { name: "Beranda", href: "/" },
     { name: "Riset", href: "/riset" },
     { name: "Tim Kami", href: "/timkami" },
-    //{ name: "Data", href: "/data" },
-    //{ name: "Grafik", href: "/grafik" },
+    { name: "Data", href: "/data" },
+    { name: "Grafik", href: "/grafik" },
   ]
 
   return (
