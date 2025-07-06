@@ -31,7 +31,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -40,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="id" suppressHydrationWarning>
+    <html lang="id">
       <head>
         <link rel="icon" href="/img/logo.png" sizes="any" />
       </head>
