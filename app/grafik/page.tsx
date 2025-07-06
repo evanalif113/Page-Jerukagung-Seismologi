@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
-import { database } from "@/lib/firebase"
+import { database } from "@/lib/firebaseConfig"
 import { ref, query, orderByKey, limitToLast, get } from "firebase/database"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"

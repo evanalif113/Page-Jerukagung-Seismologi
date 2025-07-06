@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { database } from "@/lib/firebase"
+import { database } from "@/lib/firebaseConfig"
 import { ref, query, orderByKey, limitToLast, get } from "firebase/database"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
