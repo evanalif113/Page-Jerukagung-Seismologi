@@ -1,5 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Roboto } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/navbar"
@@ -14,8 +16,15 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: "Jerukagung Seismologi",
+  title: {
+    template: "Jerukagung Seismologi",
+    default: "Jerukagung Seismologi",
+  },
   description: "Penelitian dan Pengembangan Pemantauan Sains Atmosfer Jerukagung Seismologi",
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: [
       {
@@ -46,10 +55,12 @@ export default function RootLayout({
       <body className={roboto.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <Navbar />
-          <main>{children}</main>
+          {children}
+          <Analytics />
+          <SpeedInsights />
           <Footer />
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

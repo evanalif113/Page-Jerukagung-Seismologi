@@ -19,4 +19,16 @@ const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 const auth = getAuth(app)
 
-export { database, ref, query, orderByKey, limitToLast, get, onValue, off, startAt, endAt }
+export { 
+  database, 
+  ref, 
+  query, 
+  orderByKey, 
+  limitToLast, 
+  get, 
+  onValue, 
+  off, 
+  startAt, 
+  endAt,
+  auth
+}

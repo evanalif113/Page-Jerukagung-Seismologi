@@ -2,15 +2,14 @@
 
 import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
-import { database } from "@/lib/firebaseConfig"
-import { ref, query, orderByKey, limitToLast, get } from "firebase/database"
+import { fetchSensorData } from "@/lib/fetchSensorData"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { RefreshCw, Download } from "lucide-react"
 
 // Dynamically import Plotly to avoid SSR issues
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: true })
+const Plot = dynamic(() => import("react-plotly.js"), { ssr: false })
 
 export default function GrafikPage() {
   // State for data
@@ -32,40 +31,15 @@ export default function GrafikPage() {
   const fetchData = async () => {
     try {
       setLoading(true)
-      const dataRef = query(ref(database, `auto_weather_stat/${sensorId}/data`), orderByKey(), limitToLast(dataPoints))
+      const data = await fetchSensorData(sensorId, dataPoints)
 
-      const snapshot = await get(dataRef)
-      if (snapshot.exists()) {
-        const newTimestamps: string[] = []
-        const newTemperatures: number[] = []
-        const newHumidity: number[] = []
-        const newPressure: number[] = []
-        const newDew: number[] = []
-        const newVolt: number[] = []
-
-        snapshot.forEach((childSnapshot) => {
-          const data = childSnapshot.val()
-          const timeFormatted = new Date(data.timestamp * 1000).toLocaleTimeString("id-ID", { // Menggunakan locale id-ID
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false,
-          })
-
-          newTimestamps.push(timeFormatted)
-          newTemperatures.push(data.temperature)
-          newHumidity.push(data.humidity)
-          newPressure.push(data.pressure)
-          newDew.push(data.dew)
-          newVolt.push(data.volt)
-        })
-
-        setTimestamps(newTimestamps)
-        setTemperatures(newTemperatures)
-        setHumidity(newHumidity)
-        setPressure(newPressure)
-        setDew(newDew)
-        setVolt(newVolt)
+      if (data.timestamps.length > 0) {
+        setTimestamps(data.timestamps)
+        setTemperatures(data.temperatures)
+        setHumidity(data.humidity)
+        setPressure(data.pressure)
+        setDew(data.dew)
+        setVolt(data.volt)
         setError(null)
       } else {
         // Reset data jika tidak ada
