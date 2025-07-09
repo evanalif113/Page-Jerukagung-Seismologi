@@ -1,15 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import dynamic from "next/dynamic"
 import { fetchSensorData } from "@/lib/fetchSensorData"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { RefreshCw, Download } from "lucide-react"
-
-// Dynamically import Plotly to avoid SSR issues
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false })
+import ChartComponent from "@/components/ChartComponent"
 
 export default function GrafikPage() {
   // State for data
@@ -25,7 +22,6 @@ export default function GrafikPage() {
   const [error, setError] = useState<string | null>(null)
   const [sensorId, setSensorId] = useState("id-03")
   const [dataPoints, setDataPoints] = useState(60) // Default to 1 hour (60 minutes)
-  const [mounted, setMounted] = useState(false)
 
   // Fetch data from Firebase
   const fetchData = async () => {
@@ -61,16 +57,12 @@ export default function GrafikPage() {
 
   // Initialize component
   useEffect(() => {
-    setMounted(true)
     fetchData()
 
     // Refresh data every 30 seconds
     const interval = setInterval(fetchData, 30000)
     return () => clearInterval(interval)
   }, [sensorId, dataPoints])
-
-  // Don't render Plotly on server
-  if (!mounted) return null
 
   // Common layout settings for charts
   const commonLayout = {
@@ -102,68 +94,63 @@ export default function GrafikPage() {
     hovermode: "x unified", // Peningkatan UX
   }
 
-  // Chart configurations
-  const temperatureConfig = {
-    data: [{
-      x: timestamps,
-      y: temperatures,
-      type: "scatter",
-      mode: "lines+markers",
-      name: "Suhu Lingkungan (°C)",
-      line: { color: "#ef4444" }, // Warna merah
-    }],
-    layout: {
-      ...commonLayout,
-      title: { text: "Suhu Lingkungan (°C)", font: { size: 16 } },
-      yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Suhu (°C)" } },
+  // Array of chart configurations
+  const chartConfigs = [
+    {
+      data: [{
+        x: timestamps,
+        y: temperatures,
+        type: "scatter",
+        mode: "lines+markers",
+        name: "Suhu Lingkungan (°C)",
+        line: { color: "#ef4444" }, // Warna merah
+      }],
+      layout: {
+        ...commonLayout,
+        title: { text: "Suhu Lingkungan (°C)", font: { size: 16 } },
+        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Suhu (°C)" } },
+      },
     },
-  }
-
-  const humidityConfig = {
-    data: [{
-      x: timestamps,
-      y: humidity,
-      type: "scatter",
-      mode: "lines+markers",
-      name: "Kelembapan Relatif (%)",
-      line: { color: "#3b82f6" }, // Warna biru
-    }],
-    layout: {
-      ...commonLayout,
-      title: { text: "Kelembapan Relatif (%)", font: { size: 16 } },
-      yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Kelembapan (%)" } },
+    {
+      data: [{
+        x: timestamps,
+        y: humidity,
+        type: "scatter",
+        mode: "lines+markers",
+        name: "Kelembapan Relatif (%)",
+        line: { color: "#3b82f6" }, // Warna biru
+      }],
+      layout: {
+        ...commonLayout,
+        title: { text: "Kelembapan Relatif (%)", font: { size: 16 } },
+        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Kelembapan (%)" } },
+      },
     },
-  }
-
-  const pressureConfig = {
-    data: [{
-      x: timestamps,
-      y: pressure,
-      type: "scatter",
-      mode: "lines+markers",
-      name: "Tekanan Udara (hPa)",
-      line: { color: "#10b981" }, // Warna hijau
-    }],
-    layout: {
-      ...commonLayout,
-      title: { text: "Tekanan Udara (hPa)", font: { size: 16 } },
-      yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tekanan (hPa)" } },
+    {
+      data: [{ 
+        x: timestamps,
+        y: pressure,
+        type: "scatter",
+        mode: "lines+markers",
+        name: "Tekanan Udara (hPa)",
+        line: { color: "#10b981" }, // Warna hijau
+      }],
+      layout: {
+        ...commonLayout,
+        title: { text: "Tekanan Udara (hPa)", font: { size: 16 } },
+        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tekanan (hPa)" } },
+      },
     },
-  }
-
-  // Komponen pembungkus Card untuk grafik agar tidak repetitif
-  const ChartCard = ({ config }: { config: { data: any[], layout: any }}) => (
-    <Card>
-      <CardContent className="pt-6">
-        <Plot
-          data={config.data}
-          layout={config.layout}
-          config={{ responsive: true, displayModeBar: false }} // displayModeBar: false untuk UI lebih bersih
-          style={{ width: "100%", height: "400px" }}
-        />
-      </CardContent>
-    </Card>
-  )
+    // Tambahkan konfigurasi grafik lain di sini jika diperlukan, contoh:
+    // {
+    //   data: [{ x: timestamps, y: dew, type: "scatter", mode: "lines+markers", name: "Titik Embun (°C)", line: { color: "#f59e0b" } }],
+    //   layout: { ...commonLayout, title: { text: "Titik Embun (°C)", font: { size: 16 } }, yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Titik Embun (°C)" } } },
+    // },
+    // {
+    //   data: [{ x: timestamps, y: volt, type: "scatter", mode: "lines+markers", name: "Tegangan Baterai (V)", line: { color: "#6366f1" } }],
+    //   layout: { ...commonLayout, title: { text: "Tegangan Baterai (V)", font: { size: 16 } }, yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tegangan (V)" } } },
+    // },
+  ];
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -230,13 +217,13 @@ export default function GrafikPage() {
       ) : (
         // Layout bertumpuk untuk semua grafik
         <div className="space-y-6">
-          <ChartCard config={temperatureConfig} />
-          <ChartCard config={humidityConfig} />
-          <ChartCard config={pressureConfig} />
-          
-          {/* Anda bisa menambahkan grafik lain di sini jika diperlukan, contoh: */}
-          {/* <ChartCard config={dewConfig} /> */}
-          {/* <ChartCard config={voltConfig} /> */}
+          {chartConfigs.map((config, index) => (
+            <Card key={index}>
+              <CardContent className="pt-6">
+                <ChartComponent data={config.data} layout={config.layout} />
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
     </div>

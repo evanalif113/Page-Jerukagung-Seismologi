@@ -1,53 +1,62 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { database } from "@/lib/firebaseConfig"
-import { ref, query, orderByKey, limitToLast, get } from "firebase/database"
+// Remove local firebase imports
+// import { database } from "@/lib/firebaseConfig"
+// import { ref, query, orderByKey, limitToLast, get } from "firebase/database"
+// Import fetchSensorData from the library
+import { fetchSensorData, SensorData } from "@/lib/fetchSensorData"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { RefreshCw, Download } from "lucide-react"
 
+// Define the structure for table data
+interface WeatherEntry {
+  date: string
+  temperature: number
+  humidity: number
+  pressure: number
+  dew: number
+  volt: number
+}
+
 export default function DataPage() {
-  const [weatherData, setWeatherData] = useState<any[]>([])
+  // Update state type to match the desired table data structure
+  const [weatherData, setWeatherData] = useState<WeatherEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   const loadWeatherData = async () => {
     try {
       setLoading(true)
-      const dataRef = query(ref(database, "auto_weather_stat/id-03/data"), orderByKey(), limitToLast(15))
+      setError(null) // Clear previous errors
 
-      const snapshot = await get(dataRef)
-      if (snapshot.exists()) {
-        const dataArray: any[] = []
+      // Use fetchSensorData from the library
+      // Fetch the last 15 data points for sensor id-03
+      const data: SensorData = await fetchSensorData("id-03", 15)
 
-        snapshot.forEach((childSnapshot) => {
-          const data = childSnapshot.val()
-          const timeFormatted = new Date(data.timestamp * 1000).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false,
-          })
+      if (data.timestamps.length > 0) {
+        // Transform the fetched data into the desired table format
+        const dataArray: WeatherEntry[] = data.timestamps.map((timestamp, index) => ({
+          date: timestamp, // Use the formatted timestamp from fetchSensorData
+          temperature: data.temperatures[index],
+          humidity: data.humidity[index],
+          pressure: data.pressure[index],
+          dew: data.dew[index],
+          volt: data.volt[index],
+        }))
 
-          dataArray.push({
-            date: timeFormatted,
-            temperature: data.temperature,
-            humidity: data.humidity,
-            pressure: data.pressure,
-            dew: data.dew,
-            volt: data.volt,
-          })
-        })
-
-        // Reverse array to show newest data first
+        // Reverse array to show newest data first, matching original logic
         setWeatherData(dataArray.reverse())
       } else {
+        // Set empty array and error if no data
+        setWeatherData([])
         setError("Tidak ada data yang tersedia.")
       }
     } catch (err) {
       console.error("Error fetching data: ", err)
       setError("Gagal mengambil data.")
+      setWeatherData([]) // Clear data on error
     } finally {
       setLoading(false)
     }
@@ -60,7 +69,7 @@ export default function DataPage() {
     const interval = setInterval(loadWeatherData, 60000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, []) // Empty dependency array means this effect runs once on mount
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -115,6 +124,7 @@ export default function DataPage() {
                       </td>
                     </tr>
                   ) : (
+                    // Use the transformed weatherData array
                     weatherData.map((entry, index) => (
                       <tr
                         key={index}
