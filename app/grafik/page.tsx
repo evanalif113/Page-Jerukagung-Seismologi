@@ -82,7 +82,7 @@ export default function GrafikPage() {
         font: { size: 14, color: "#475569" },
       },
       // Add nticks to reduce the number of grid lines on the x-axis
-      nticks: 30, // Adjust this number to control density
+      nticks: 10, // Adjust this number to control density
     },
     yaxis: {
       gridcolor: "rgba(203, 213, 225, 0.2)",
