@@ -5,7 +5,8 @@ import { fetchSensorData } from "@/lib/fetchSensorData"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { RefreshCw, Download } from "lucide-react"
+// Import icons from lucide-react
+import { RefreshCw, Download, ThermometerSun, Droplets, Gauge } from "lucide-react"
 import ChartComponent from "@/components/ChartComponent"
 
 export default function GrafikPage() {
@@ -77,13 +78,17 @@ export default function GrafikPage() {
     xaxis: {
       gridcolor: "rgba(203, 213, 225, 0.2)",
       title: {
-        text: "Waktu (HH:MM:SS)",
+        text: "",
         font: { size: 14, color: "#475569" },
       },
+      // Add nticks to reduce the number of grid lines on the x-axis
+      nticks: 30, // Adjust this number to control density
     },
     yaxis: {
       gridcolor: "rgba(203, 213, 225, 0.2)",
       title: { font: { size: 14, color: "#475569" } },
+      // Add nticks to reduce the number of grid lines on the y-axis
+      nticks: 10, // Adjust this number to control density
     },
     legend: {
       orientation: "h",
@@ -97,6 +102,9 @@ export default function GrafikPage() {
   // Array of chart configurations
   const chartConfigs = [
     {
+      // Add icon and color class for Temperature
+      icon: ThermometerSun,
+      colorClass: "text-red-500", // Tailwind class for red
       data: [{
         x: timestamps,
         y: temperatures,
@@ -112,6 +120,9 @@ export default function GrafikPage() {
       },
     },
     {
+      // Add icon and color class for Humidity
+      icon: Droplets,
+      colorClass: "text-blue-500", // Tailwind class for blue
       data: [{
         x: timestamps,
         y: humidity,
@@ -127,7 +138,10 @@ export default function GrafikPage() {
       },
     },
     {
-      data: [{ 
+      // Add icon and color class for Pressure
+      icon: Gauge, // Using Cloud as a representation for atmospheric pressure
+      colorClass: "text-green-500", // Tailwind class for green
+      data: [{
         x: timestamps,
         y: pressure,
         type: "scatter",
@@ -217,13 +231,23 @@ export default function GrafikPage() {
       ) : (
         // Layout bertumpuk untuk semua grafik
         <div className="space-y-6">
-          {chartConfigs.map((config, index) => (
-            <Card key={index}>
-              <CardContent className="pt-6">
-                <ChartComponent data={config.data} layout={config.layout} />
-              </CardContent>
-            </Card>
-          ))}
+          {chartConfigs.map((config, index) => {
+            const IconComponent = config.icon; // Get the icon component
+            return (
+              <Card key={index}>
+                {/* Add CardHeader for each chart */}
+                <CardHeader className="flex flex-row items-center gap-3 bg-gray-50 dark:bg-gray-800 border-b py-3 px-6">
+                  {/* Add the icon with dynamic color class */}
+                  {IconComponent && <IconComponent className={`h-5 w-5 ${config.colorClass}`} />}
+                  {/* Use the title from the layout */}
+                  <CardTitle className="text-lg">{config.layout.title.text}</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <ChartComponent data={config.data} layout={config.layout} />
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>
