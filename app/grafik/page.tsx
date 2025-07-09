@@ -59,9 +59,8 @@ export default function GrafikPage() {
   // Initialize component
   useEffect(() => {
     fetchData()
-
     // Refresh data every 30 seconds
-    const interval = setInterval(fetchData, 30000)
+    const interval = setInterval(fetchData, 60000)
     return () => clearInterval(interval)
   }, [sensorId, dataPoints])
 
