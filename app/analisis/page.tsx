@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 // Import icons from lucide-react
-import { RefreshCw, Download, ThermometerSun, Droplets, Gauge } from "lucide-react"
+import { RefreshCw, Download, ThermometerSun, Droplets, Gauge, CloudDrizzle, BatteryCharging } from "lucide-react"
 import ChartComponent from "@/components/ChartComponent"
 
 export default function GrafikPage() {
@@ -154,15 +154,41 @@ export default function GrafikPage() {
         yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tekanan (hPa)" } },
       },
     },
-    // Tambahkan konfigurasi grafik lain di sini jika diperlukan, contoh:
-    // {
-    //   data: [{ x: timestamps, y: dew, type: "scatter", mode: "lines+markers", name: "Titik Embun (°C)", line: { color: "#f59e0b" } }],
-    //   layout: { ...commonLayout, title: { text: "Titik Embun (°C)", font: { size: 16 } }, yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Titik Embun (°C)" } } },
-    // },
-    // {
-    //   data: [{ x: timestamps, y: volt, type: "scatter", mode: "lines+markers", name: "Tegangan Baterai (V)", line: { color: "#6366f1" } }],
-    //   layout: { ...commonLayout, title: { text: "Tegangan Baterai (V)", font: { size: 16 } }, yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tegangan (V)" } } },
-    // },
+    {
+      // Add icon and color class for Dew Point
+      icon: CloudDrizzle, // Icon for Dew Point
+      colorClass: "text-orange-500", // Tailwind class for orange
+      data: [{
+        x: timestamps,
+        y: dew,
+        type: "scatter",
+        mode: "lines+markers",
+        name: "Titik Embun (°C)",
+        line: { color: "#f59e0b" }
+      }],
+      layout: {
+        ...commonLayout,
+        title: { text: "Titik Embun (°C)", font: { size: 16 } },
+        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Titik Embun (°C)" } }
+      },
+    },
+    {
+      // Add icon and color class for Battery Voltage
+      icon: BatteryCharging, // Icon for Battery Voltage
+      colorClass: "text-indigo-500", // Tailwind class for indigo
+      data: [{
+        x: timestamps,
+        y: volt,
+        type: "bar", // Changed to bar chart
+        name: "Tegangan Baterai (V)",
+        marker: { color: "#6366f1" } // Warna indigo for bars
+      }],
+      layout: {
+        ...commonLayout,
+        title: { text: "Tegangan Baterai (V)", font: { size: 16 } },
+        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tegangan (V)" } }
+      },
+    },
   ];
 
   return (

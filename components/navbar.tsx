@@ -19,7 +19,7 @@ export default function Navbar() {
     { name: "Riset", href: "/riset" },
     { name: "Tim Kami", href: "/timkami" },
     { name: "Data", href: "/data" },
-    { name: "Grafik", href: "/grafik" },
+    { name: "Analisis", href: "/analisis" },
   ]
 
   return (
