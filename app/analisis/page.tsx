@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 // Import icons from lucide-react
-import { RefreshCw, Download, ThermometerSun, Droplets, Gauge, CloudDrizzle, BatteryCharging } from "lucide-react"
+import { RefreshCw, Download, ThermometerSun, Droplets, Gauge, CloudDrizzle, BatteryCharging, ScatterChart } from "lucide-react"
 import ChartComponent from "@/components/ChartComponent"
 
 export default function GrafikPage() {
@@ -187,6 +187,47 @@ export default function GrafikPage() {
         ...commonLayout,
         title: { text: "Tegangan Baterai (V)", font: { size: 16 } },
         yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tegangan (V)" } }
+      },
+    },
+    {
+      // Add configuration for Temperature vs Humidity Scatter Plot
+      icon: ScatterChart, // Icon for Scatter Plot
+      colorClass: "text-purple-500", // Tailwind class for purple
+      data: [{
+        x: temperatures,
+        y: humidity,
+        mode: "markers",
+        type: "scatter",
+        name: "Suhu vs Kelembapan",
+        marker: { color: "#a855f7" } // Warna ungu
+      }],
+      layout: {
+        ...commonLayout,
+        title: { text: "Korelasi Suhu dan Kelembapan", font: { size: 16 } },
+        xaxis: { ...commonLayout.xaxis, title: { ...commonLayout.xaxis.title, text: "Suhu (°C)" } },
+        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Kelembapan (%)" } },
+      },
+    },
+    {
+      // Add configuration for Temperature vs Humidity vs Pressure 3D Scatter Plot
+      data: [{
+        x: temperatures,
+        y: humidity,
+        z: pressure,
+        mode: "markers",
+        type: "scatter3d",
+        name: "Suhu, Kelembapan & Tekanan",
+        marker: { size: 5, color: pressure, colorscale: 'Viridis', opacity: 0.8 }
+      }],
+      layout: {
+        ...commonLayout,
+        title: { text: "Korelasi Suhu, Kelembapan, dan Tekanan", font: { size: 16 } },
+        scene: {
+          xaxis: { title: "Suhu (°C)" },
+          yaxis: { title: "Kelembapan (%)" },
+          zaxis: { title: "Tekanan (hPa)" },
+        },
+        margin: { l: 0, r: 0, b: 0, t: 40 }
       },
     },
   ];
