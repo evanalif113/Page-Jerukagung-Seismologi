@@ -28,15 +28,22 @@ export default function GrafikPage() {
   const fetchData = async () => {
     try {
       setLoading(true)
-      const data = await fetchSensorData(sensorId, dataPoints)
+      const sensorData = await fetchSensorData(sensorId, dataPoints)
 
-      if (data.timestamps.length > 0) {
-        setTimestamps(data.timestamps)
-        setTemperatures(data.temperatures)
-        setHumidity(data.humidity)
-        setPressure(data.pressure)
-        setDew(data.dew)
-        setVolt(data.volt)
+      if (sensorData.length > 0) {
+        const Timestamps: string[] = sensorData.map(d => d.timeFormatted || new Date(d.timestamp).toLocaleString('id-ID', { timeZone: "Asia/Jakarta" }));
+        const temperatures = sensorData.map(d => d.temperature).reverse()
+        const humidity = sensorData.map(d => d.humidity).reverse()
+        const pressure = sensorData.map(d => d.pressure).reverse()
+        const dew = sensorData.map(d => d.dew).reverse()
+        const volt = sensorData.map(d => d.volt).reverse()
+
+        setTimestamps(Timestamps)
+        setTemperatures(temperatures)
+        setHumidity(humidity)
+        setPressure(pressure)
+        setDew(dew)
+        setVolt(volt)
         setError(null)
       } else {
         // Reset data jika tidak ada
@@ -95,7 +102,7 @@ export default function GrafikPage() {
       yanchor: 'top',
       font: { size: 12 },
     },
-    hovermode: "x unified", // Peningkatan UX
+    hovermode: "closest", // Peningkatan UX
   }
 
   // Array of chart configurations

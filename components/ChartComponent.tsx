@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 
 // Dynamically import Plotly to avoid SSR issues
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: true })
+const Plot = dynamic(() => import("react-plotly.js"), { ssr: false })
 
 interface ChartComponentProps {
   data: any[];

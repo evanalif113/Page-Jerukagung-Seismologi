@@ -1,117 +1,203 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-// Import fetchSensorData from the library
-import { fetchSensorData, SensorData } from "@/lib/fetchSensorData"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" // Import Select components
-// Import icons from lucide-react, including those for charts
-import { RefreshCw, Download, ThermometerSun, Droplets, Gauge } from "lucide-react"
+import { useState, useEffect, useCallback } from "react";
+// Import fetchSensorData dari library
+import { fetchSensorData, deleteSensorData, SensorDate } from "@/lib/fetchSensorData";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+// Import icons dari lucide-react
+import { RefreshCw, Download, ThermometerSun, Droplets, Gauge, Trash2 } from "lucide-react";
 // Import ChartComponent
-import ChartComponent from "@/components/ChartComponent"
+import ChartComponent from "@/components/ChartComponent";
 
+interface Period {
+  label: string;
+  valueInMinutes: number;
+}
 // Define the structure for table data
 interface WeatherEntry {
-  date: string
-  temperature: number
-  humidity: number
-  pressure: number
-  dew: number
-  volt: number
+  timestamp: number;
+  date: string; // Akan menggunakan dateFormatted dari SensorDate
+  temperature: number;
+  humidity: number;
+  pressure: number;
+  dew: number;
 }
 
-export default function DataPage() {
-  // State for table data
-  const [weatherData, setWeatherData] = useState<WeatherEntry[]>([])
+// Daftar periode yang bisa dipilih
+const periods: Period[] = [
+  { label: "30 Menit", valueInMinutes: 30 },
+  { label: "1 Jam", valueInMinutes: 60 },
+  { label: "3 Jam", valueInMinutes: 3 * 60 },
+  { label: "6 Jam", valueInMinutes: 6 * 60 },
+  { label: "12 Jam", valueInMinutes: 12 * 60 },
+  { label: "24 Jam", valueInMinutes: 24 * 60 },
+];
 
-  // State for chart data (moved from grafik/page.tsx)
-  const [timestamps, setTimestamps] = useState<string[]>([])
-  const [temperatures, setTemperatures] = useState<number[]>([])
-  const [humidity, setHumidity] = useState<number[]>([])
-  const [pressure, setPressure] = useState<number[]>([])
-  const [dew, setDew] = useState<number[]>([])
-  const [volt, setVolt] = useState<number[]>([])
+export default function DataPage() {
+  // State untuk data grafik (array terpisah)
+  const [timestamps, setTimestamps] = useState<string[]>([]); // Akan menggunakan timeFormatted
+  const [temperatures, setTemperatures] = useState<number[]>([]);
+  const [humidity, setHumidity] = useState<number[]>([]);
+  const [pressure, setPressure] = useState<number[]>([]);
+  const [dew, setDew] = useState<number[]>([]);
+
+  // State untuk data tabel
+  const [weatherData, setWeatherData] = useState<WeatherEntry[]>([]);
 
   // UI state
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  // State for tabs
-  const [activeTab, setActiveTab] = useState<'table' | 'grafik'>('table') // 'table' or 'grafik'
+  const [loading, setLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // State untuk tab
+  const [activeTab, setActiveTab] = useState<'table' | 'grafik'>('table');
 
-  // State for sensor and data points (moved from grafik/page.tsx, now global)
-  const [sensorId, setSensorId] = useState("id-03")
-  const [dataPoints, setDataPoints] = useState(30) // Default for table, will be overridden by select for charts
+  // State untuk sensor dan jumlah data
+  const [sensorId, setSensorId] = useState("id-03");
+  const [selectedPeriod, setSelectedPeriod] = useState<Period>(periods[1]); // Default 1 Jam
 
-  // Fetch data from Firebase (updated to populate both table and chart states)
-  const fetchData = async () => {
-    try {
-      setLoading(true)
-      setError(null) // Clear previous errors
+  // Fungsi untuk memproses dan mengatur state data
+  const processAndSetData = (data: SensorDate[]) => {
+    if (data.length > 0) {
+      const fetchedTimestamps: string[] = data.map(d => d.timeFormatted || new Date(d.timestamp).toLocaleString('id-ID', { timeZone: "Asia/Jakarta" }));
+      const fetchedTemperatures: number[] = data.map(d => d.temperature);
+      const fetchedHumidity: number[] = data.map(d => d.humidity);
+      const fetchedPressure: number[] = data.map(d => d.pressure);
+      const fetchedDew: number[] = data.map(d => d.dew);
 
-      // Use fetchSensorData from the library
-      // Fetch data based on current sensorId and dataPoints state
-      const data: SensorData = await fetchSensorData(sensorId, dataPoints)
+      setTimestamps(fetchedTimestamps);
+      setTemperatures(fetchedTemperatures);
+      setHumidity(fetchedHumidity);
+      setPressure(fetchedPressure);
+      setDew(fetchedDew);
 
-      if (data.timestamps.length > 0) {
-        // Populate chart data states
-        setTimestamps(data.timestamps)
-        setTemperatures(data.temperatures)
-        setHumidity(data.humidity)
-        setPressure(data.pressure)
-        setDew(data.dew)
-        setVolt(data.volt)
-
-        // Transform the fetched data into the desired table format
-        const dataArray: WeatherEntry[] = data.timestamps.map((timestamp, index) => ({
-          date: timestamp, // Use the formatted timestamp from fetchSensorData
-          temperature: data.temperatures[index],
-          humidity: data.humidity[index],
-          pressure: data.pressure[index],
-          dew: data.dew[index],
-          volt: data.volt[index],
-        }))
-
-        // Reverse array to show newest data first for the table
-        setWeatherData(dataArray.reverse())
-        setError(null)
-      } else {
-        // Set empty arrays and error if no data
-        setTimestamps([])
-        setTemperatures([])
-        setHumidity([])
-        setPressure([])
-        setDew([])
-        setVolt([])
-        setWeatherData([])
-        setError("Tidak ada data yang tersedia untuk periode ini.")
-      }
-    } catch (err) {
-      console.error("Error fetching data: ", err)
-      setError("Gagal mengambil data.")
-      setWeatherData([]) // Clear data on error
-      setTimestamps([])
-      setTemperatures([])
-      setHumidity([])
-      setPressure([])
-      setDew([])
-      setVolt([])
-    } finally {
-      setLoading(false)
+      const dataArray: WeatherEntry[] = data.map((entry) => ({
+        timestamp: entry.timestamp,
+        date: entry.dateFormatted || new Date(entry.timestamp).toLocaleString('id-ID', { timeZone: "Asia/Jakarta" }),
+        temperature: entry.temperature,
+        humidity: entry.humidity,
+        pressure: entry.pressure,
+        dew: entry.dew,
+      }));
+      setWeatherData(dataArray.reverse());
+      setError(null);
+    } else {
+      setTimestamps([]);
+      setTemperatures([]);
+      setHumidity([]);
+      setPressure([]);
+      setDew([]);
+      setWeatherData([]);
+      setError("Tidak ada data yang tersedia untuk periode ini.");
     }
+  };
+
+  // Fetch data untuk pembaruan di background (polling)
+  const updateData = useCallback(async () => {
+    try {
+      const dataPoints = selectedPeriod.valueInMinutes;
+      const data = await fetchSensorData(sensorId, dataPoints);
+      processAndSetData(data);
+    } catch (err: any) {
+      console.error("Gagal melakukan polling data:", err);
+      // Optionally set an error state that doesn't disrupt the UI too much
+    }
+  }, [sensorId, selectedPeriod]);
+
+  // Fetch data untuk pemuatan awal atau refresh manual
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const dataPoints = selectedPeriod.valueInMinutes;
+      const data = await fetchSensorData(sensorId, dataPoints);
+      processAndSetData(data);
+    } catch (err: any) {
+      console.error("Error fetching data: ", err);
+      setError("Gagal mengambil data: " + (err.message || "Terjadi kesalahan tidak diketahui."));
+      setWeatherData([]);
+      setTimestamps([]);
+      setTemperatures([]);
+      setHumidity([]);
+      setPressure([]);
+      setDew([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [sensorId, selectedPeriod]);
+
+  // Inisialisasi komponen dan refresh data
+  useEffect(() => {
+    fetchData(); // Panggil untuk pemuatan awal
+
+    // Atur interval untuk polling, hanya jika periode tertentu dipilih
+    if (selectedPeriod.valueInMinutes <= 60) { // Contoh: polling untuk periode 1 jam atau kurang
+      const interval = setInterval(updateData, 60000); // Panggil updateData untuk polling
+      return () => clearInterval(interval);
+    }
+  }, [fetchData, updateData, selectedPeriod.valueInMinutes]);
+
+  // Fungsi untuk menghapus data sensor
+  const handleDeleteSensorData = async () => {
+    if (window.confirm("Apakah Anda yakin ingin menghapus semua riwayat data untuk sensor ini? Tindakan ini tidak dapat diurungkan.")) {
+      setIsDeleting(true);
+      setError(null);
+      try {
+        await deleteSensorData(sensorId);
+        // Kosongkan state di UI setelah berhasil
+        setWeatherData([]);
+        setTimestamps([]);
+        setTemperatures([]);
+        setHumidity([]);
+        setPressure([]);
+        setDew([]);
+      } catch (err: any) {
+        console.error(err);
+        setError("Gagal menghapus data sensor: " + err.message);
+      } finally {
+        setIsDeleting(false);
+      }
+    }
+  };
+
+  // Fungsi untuk mengunduh data (contoh sederhana)
+  const handleDownloadData = () => {
+    if (weatherData.length === 0) {
+      alert("Tidak ada data untuk diunduh.");
+      return;
+    }
+    const headers = ["Waktu", "Suhu (°C)", "Kelembapan (%)", "Tekanan (hPa)", "Titik Embun (°C)"];
+    const rows = weatherData.map(entry =>
+      `${entry.date},${entry.temperature},${entry.humidity},${entry.pressure},${entry.dew}`
+    );
+    const csvContent = [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `data_cuaca_${sensorId}_${new Date().toISOString()}.csv`);
+    link.click();
+    URL.revokeObjectURL(url); // Membersihkan URL objek setelah diunduh
+  };
+
+  // Fungsi untuk mendapatkan domain sumbu Y
+  function getYAxisDomain(data: number[]) {
+    if (data.length === 0) return [-1, 1];
+    let min = Math.min(...data);
+    let max = Math.max(...data);
+    if (min === max) {
+        min -= 1;
+        max += 1;
+    } else {
+        const padding = (max - min) * 0.1;
+        min -= padding;
+        max += padding;
+    }
+    return [min, max];
   }
 
-  // Initialize component and refresh data
-  useEffect(() => {
-    fetchData()
-
-    // Refresh data every minute
-    const interval = setInterval(fetchData, 60000)
-
-    return () => clearInterval(interval)
-  }, [sensorId, dataPoints]) // Depend on sensorId and dataPoints
-
-  // Common layout settings for charts (moved from grafik/page.tsx)
+  // Pengaturan tata letak umum untuk grafik
   const commonLayout = {
     autosize: true,
     margin: { l: 60, r: 40, t: 40, b: 60 },
@@ -126,12 +212,12 @@ export default function DataPage() {
       title: {
         font: { size: 14, color: "#475569" },
       },
-      nticks: 10, // Adjust this number to control density
+      nticks: 10,
     },
     yaxis: {
       gridcolor: "rgba(203, 213, 225, 0.2)",
       title: { font: { size: 14, color: "#475569" } },
-      nticks: 10, // Adjust this number to control density
+      nticks: 10,
     },
     legend: {
       orientation: "h",
@@ -139,93 +225,47 @@ export default function DataPage() {
       yanchor: 'top',
       font: { size: 12 },
     },
-    hovermode: "x unified", // Peningkatan UX
-  }
+    hovermode: "",
+  };
 
-  // Array of chart configurations (moved from grafik/page.tsx)
-  const chartConfigs = [
-    {
-      icon: ThermometerSun,
-      colorClass: "text-red-500", // Tailwind class for red
-      data: [{
-        x: timestamps,
-        y: temperatures,
-        type: "scatter",
-        mode: "lines+markers",
-        name: "Suhu Lingkungan (°C)",
-        line: { color: "#ef4444" }, // Warna merah
-      }],
-      layout: {
-        ...commonLayout,
-        title: { text: "Suhu Lingkungan (°C)", font: { size: 16 } },
-        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Suhu (°C)" } },
-      },
-    },
-    {
-      icon: Droplets,
-      colorClass: "text-blue-500", // Tailwind class for blue
-      data: [{
-        x: timestamps,
-        y: humidity,
-        type: "scatter",
-        mode: "lines+markers",
-        name: "Kelembapan Relatif (%)",
-        line: { color: "#3b82f6" }, // Warna biru
-      }],
-      layout: {
-        ...commonLayout,
-        title: { text: "Kelembapan Relatif (%)", font: { size: 16 } },
-        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Kelembapan (%)" } },
-      },
-    },
-    {
-      icon: Gauge,
-      colorClass: "text-green-500", // Tailwind class for green
-      data: [{
-        x: timestamps,
-        y: pressure,
-        type: "scatter",
-        mode: "lines+markers",
-        name: "Tekanan Udara (hPa)",
-        line: { color: "#10b981" }, // Warna hijau
-      }],
-      layout: {
-        ...commonLayout,
-        title: { text: "Tekanan Udara (hPa)", font: { size: 16 } },
-        yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tekanan (hPa)" } },
-      },
-    },
-    // Add other chart configs here if needed (Dew Point, Voltage)
-    // {
-    //   icon: ThermometerSun, // Or another appropriate icon
-    //   colorClass: "text-yellow-500",
-    //   data: [{ x: timestamps, y: dew, type: "scatter", mode: "lines+markers", name: "Titik Embun (°C)", line: { color: "#f59e0b" } }],
-    //   layout: { ...commonLayout, title: { text: "Titik Embun (°C)", font: { size: 16 } }, yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Titik Embun (°C)" } } },
-    // },
-    // {
-    //   icon: Gauge, // Or another appropriate icon like Battery
-    //   colorClass: "text-indigo-500",
-    //   data: [{ x: timestamps, y: volt, type: "scatter", mode: "lines+markers", name: "Tegangan Baterai (V)", line: { color: "#6366f1" } }],
-    //   layout: { ...commonLayout, title: { text: "Tegangan Baterai (V)", font: { size: 16 } }, yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: "Tegangan (V)" } } },
-    // },
-  ];
+  // Komponen Card untuk setiap grafik
+  const ChartCard = ({ title, data, color, Icon, unit }: { title: string; data: number[]; color: string; Icon: React.FC<any>; unit: string; }) => {
+    const yDomain = getYAxisDomain(data);
+    const chartData = [{
+      x: timestamps,
+      y: data,
+      type: "scatter",
+      mode: "lines+markers",
+      name: title,
+      line: { color },
+    }];
+    const layout = {
+      ...commonLayout,
+      title: { text: title, font: { size: 16 } },
+      yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: unit }, range: yDomain },
+    };
 
+    return (
+      <Card>
+        <CardHeader className="flex flex-row items-center gap-3 bg-gray-50 dark:bg-gray-800 border-b py-3 px-6">
+          <Icon className={`h-5 w-5`} style={{ color }} />
+          <CardTitle className="text-lg">{title}</CardTitle>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <ChartComponent data={chartData} layout={layout} />
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-medium text-primary-700 dark:text-primary-300 mb-2">Data Cuaca</h1>
-        <p className="text-gray-600 dark:text-gray-300">
-          Data pengamatan cuaca terkini dari stasiun pemantauan Jerukagung Meteorologi.
-        </p>
-      </div>
-
       {/* Global Controls Card */}
       <Card className="mb-6">
         <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-gray-50 dark:bg-gray-800 border-b">
           <CardTitle className="text-xl">Pengaturan Data & Grafik</CardTitle>
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
-             {/* Sensor Select */}
+            {/* Sensor Select */}
             <Select value={sensorId} onValueChange={setSensorId}>
               <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Pilih Sensor" />
@@ -239,22 +279,6 @@ export default function DataPage() {
               </SelectContent>
             </Select>
 
-            {/* Data Points Select */}
-            <Select value={dataPoints.toString()} onValueChange={(value) => setDataPoints(Number.parseInt(value))}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Jumlah Data" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="15">15 data terakhir</SelectItem> {/* Default for table */}
-                <SelectItem value="30">30 data terakhir</SelectItem>
-                <SelectItem value="60">60 data terakhir (1 jam)</SelectItem>
-                <SelectItem value="120">120 data terakhir (2 jam)</SelectItem>
-                <SelectItem value="240">240 data terakhir (4 jam)</SelectItem>
-                <SelectItem value="720">720 data terakhir (12 jam)</SelectItem>
-                <SelectItem value="1440">1440 data terakhir (24 jam)</SelectItem>
-              </SelectContent>
-            </Select>
-
             {/* Refresh Button */}
             <Button variant="outline" size="icon" onClick={fetchData} disabled={loading}>
               <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
@@ -262,11 +286,33 @@ export default function DataPage() {
             </Button>
 
             {/* Download Button */}
-            <Button variant="outline" size="sm" className="text-gray-600 dark:text-gray-300">
+            <Button variant="outline" size="sm" className="text-gray-600 dark:text-gray-300" onClick={handleDownloadData}>
               <Download className="h-4 w-4 mr-1" /> Unduh Data
+            </Button>
+
+            {/* Delete Button */}
+            <Button variant="destructive" size="sm" onClick={handleDeleteSensorData} disabled={isDeleting || loading}>
+              <Trash2 className="h-4 w-4 mr-1" /> {isDeleting ? "Menghapus..." : "Hapus Data"}
             </Button>
           </div>
         </CardHeader>
+        <CardContent className="pt-4">
+          <div className="flex flex-wrap gap-2">
+            {periods.map((period) => (
+              <button
+                key={period.label}
+                onClick={() => setSelectedPeriod(period)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  selectedPeriod?.label === period.label
+                    ? "bg-primary-600 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                }`}
+              >
+                {period.label}
+              </button>
+            ))}
+          </div>
+        </CardContent>
       </Card>
 
       {/* Tab Navigation */}
@@ -295,13 +341,11 @@ export default function DataPage() {
 
       {/* Tab Content */}
       {loading ? (
-        // Centralized loading display
         <div className="flex justify-center items-center h-[400px]">
           <RefreshCw className="h-8 w-8 animate-spin text-primary-500" />
           <p className="ml-4 text-gray-500">Memuat data...</p>
         </div>
       ) : error ? (
-        // Error display
         <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-md mb-6">{error}</div>
       ) : (
         <>
@@ -318,18 +362,16 @@ export default function DataPage() {
                         <th className="p-4 font-medium text-gray-600 dark:text-gray-300 border-b">Kelembapan (%)</th>
                         <th className="p-4 font-medium text-gray-600 dark:text-gray-300 border-b">Tekanan (hPa)</th>
                         <th className="p-4 font-medium text-gray-600 dark:text-gray-300 border-b">Titik Embun (°C)</th>
-                        <th className="p-4 font-medium text-gray-600 dark:text-gray-300 border-b">Tegangan (V)</th>
                       </tr>
                     </thead>
                     <tbody id="datalogger">
                       {weatherData.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="p-8 text-center text-gray-600 dark:text-gray-300">
+                          <td colSpan={5} className="p-8 text-center text-gray-600 dark:text-gray-300">
                             Tidak ada data yang tersedia.
                           </td>
                         </tr>
                       ) : (
-                        // Use the transformed weatherData array
                         weatherData.map((entry, index) => (
                           <tr
                             key={index}
@@ -340,7 +382,6 @@ export default function DataPage() {
                             <td className="p-4 border-t">{entry.humidity}</td>
                             <td className="p-4 border-t">{entry.pressure}</td>
                             <td className="p-4 border-t">{entry.dew}</td>
-                            <td className="p-4 border-t">{entry.volt}</td>
                           </tr>
                         ))
                       )}
@@ -351,30 +392,17 @@ export default function DataPage() {
             </Card>
           )}
 
-          {/* Grafik Content (moved from grafik/page.tsx) */}
+          {/* Grafik Content */}
           {activeTab === 'grafik' && (
-             <div className="space-y-6">
-              {chartConfigs.map((config, index) => {
-                const IconComponent = config.icon; // Get the icon component
-                return (
-                  <Card key={index}>
-                    {/* Add CardHeader for each chart */}
-                    <CardHeader className="flex flex-row items-center gap-3 bg-gray-50 dark:bg-gray-800 border-b py-3 px-6">
-                      {/* Add the icon with dynamic color class */}
-                      {IconComponent && <IconComponent className={`h-5 w-5 ${config.colorClass}`} />}
-                      {/* Use the title from the layout */}
-                      <CardTitle className="text-lg">{config.layout.title.text}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="pt-6">
-                      <ChartComponent data={config.data} layout={config.layout} />
-                    </CardContent>
-                  </Card>
-                );
-              })}
+            <div className="space-y-6">
+              <ChartCard title="Suhu Lingkungan (°C)" data={temperatures} color="#ef4444" Icon={ThermometerSun} unit="Suhu (°C)" />
+              <ChartCard title="Kelembapan Relatif (%)" data={humidity} color="#3b82f6" Icon={Droplets} unit="Kelembapan (%)" />
+              <ChartCard title="Tekanan Udara (hPa)" data={pressure} color="#10b981" Icon={Gauge} unit="Tekanan (hPa)" />
+              <ChartCard title="Titik Embun (°C)" data={dew} color="#f59e0b" Icon={ThermometerSun} unit="Titik Embun (°C)" />
             </div>
           )}
         </>
       )}
     </div>
-  )
+  );
 }
