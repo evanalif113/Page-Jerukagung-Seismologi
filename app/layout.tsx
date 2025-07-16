@@ -1,4 +1,3 @@
-import type React from "react"
 import type { Metadata } from "next"
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -13,10 +12,21 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    template: "Jerukagung Seismologi",
+    template: "%s | Jerukagung Seismologi",
     default: "Jerukagung Seismologi",
   },
   description: "Penelitian dan Pengembangan Pemantauan Sains Atmosfer Jerukagung Seismologi",
+  keywords: [
+    "Jerukagung",
+    "Seismologi",
+    "Pemantauan",
+    "Sains Atmosfer",
+    "Penelitian",
+    "Pengembangan",
+    "Teknologi",
+    "Sensor",
+    "Aktuator",
+  ],
   robots: {
     index: true,
     follow: true,
@@ -26,11 +36,14 @@ export const metadata: Metadata = {
       {
         url: "/img/logo.png",
         href: "/img/logo.png",
+        sizes: "any",
+        type: "image/png",
       },
     ],
     apple: [
       {
         url: "/img/logo.png",
+        href: "/img/logo.png",
         sizes: "180x180",
         type: "image/png",
       },
@@ -45,16 +58,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <head>
-        <link rel="icon" href="/img/logo.png" sizes="any"/>
-      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <Navbar />
+          <Navbar/>
           {children}
           <Analytics />
           <SpeedInsights />
-          <Footer />
+          <Footer/>
         </ThemeProvider>
       </body>
     </html>
