@@ -1,35 +1,30 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { Product, fetchProducts } from "../../lib/fetchProduct"
 
-export default function RisetPage() {
-  const researchProjects = [
-    {
-      title: "Low Cost Weather Station",
-      description: "Penelitian mengenai stasiun pengamatan cuaca yang akurat namun mudah dibuat",
-      image: "/img/riset/re.jpg",
-      link: "#",
-    },
-    {
-      title: "Battery and Energy Consumption Optimization",
-      description: "Penelitian untuk meningkatkan efisiensi penggunaan energi listrik",
-      image: "/img/riset/re.jpg",
-      link: "#",
-    },
-    {
-      title: "Analytic and Visualization Method",
-      description: "Pengkajian analisis dan visualisasi data cuaca",
-      image: "/img/riset/re.jpg",
-      link: "#",
-    },
-  ]
+export default function KatalogPage() {
+  const [products, setProducts] = useState<Product[]>([])
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      const fetchedProducts = await fetchProducts()
+      setProducts(fetchedProducts)
+    }
+    loadProducts()
+  }, [])
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 container mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">Riset Kami</h2>
+      <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">
+        Katalog Produk
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {researchProjects.map((project, index) => (
+        {products.map((project) => (
           <div
-            key={index}
+            key={project.id}
             className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden h-full"
           >
             <div className="relative h-48">

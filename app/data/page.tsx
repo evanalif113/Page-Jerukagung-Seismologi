@@ -53,6 +53,10 @@ export default function DataPage() {
   // State untuk tab
   const [activeTab, setActiveTab] = useState<'table' | 'grafik'>('table');
 
+  // State untuk pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15; // Jumlah item per halaman
+
   // State untuk sensor dan jumlah data
   const [sensorId, setSensorId] = useState("id-03");
   const [selectedPeriod, setSelectedPeriod] = useState<Period>(periods[1]); // Default 1 Jam
@@ -82,6 +86,7 @@ export default function DataPage() {
       }));
       setWeatherData(dataArray.reverse());
       setError(null);
+      setCurrentPage(1); // Reset ke halaman pertama saat data baru dimuat
     } else {
       setTimestamps([]);
       setTemperatures([]);
@@ -152,12 +157,31 @@ export default function DataPage() {
         setHumidity([]);
         setPressure([]);
         setDew([]);
+        setCurrentPage(1); // Reset halaman setelah data dihapus
       } catch (err: any) {
         console.error(err);
         setError("Gagal menghapus data sensor: " + err.message);
       } finally {
         setIsDeleting(false);
       }
+    }
+  };
+
+  // Pagination logic
+  const totalPages = Math.ceil(weatherData.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTableData = weatherData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -259,7 +283,16 @@ export default function DataPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div
+      className="container mx-auto px-4 py-8"
+      style={{
+        backgroundImage: 'url(/background6.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh',
+      }}
+    >
       {/* Global Controls Card */}
       <Card className="mb-6">
         <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-gray-50 dark:bg-gray-800 border-b">
@@ -365,14 +398,14 @@ export default function DataPage() {
                       </tr>
                     </thead>
                     <tbody id="datalogger">
-                      {weatherData.length === 0 ? (
+                      {currentTableData.length === 0 ? (
                         <tr>
                           <td colSpan={5} className="p-8 text-center text-gray-600 dark:text-gray-300">
                             Tidak ada data yang tersedia.
                           </td>
                         </tr>
                       ) : (
-                        weatherData.map((entry, index) => (
+                        currentTableData.map((entry, index) => (
                           <tr
                             key={index}
                             className={index % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"}
@@ -388,6 +421,19 @@ export default function DataPage() {
                     </tbody>
                   </table>
                 </div>
+                {weatherData.length > itemsPerPage && (
+                  <div className="flex items-center justify-between p-4 border-t">
+                    <Button onClick={handlePreviousPage} disabled={currentPage === 1} variant="outline">
+                      Sebelumnya
+                    </Button>
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      Halaman {currentPage} dari {totalPages}
+                    </span>
+                    <Button onClick={handleNextPage} disabled={currentPage === totalPages} variant="outline">
+                      Berikutnya
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           )}
