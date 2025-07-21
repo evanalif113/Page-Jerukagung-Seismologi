@@ -1,5 +1,5 @@
 // context/AuthContext.tsx
-'use server';
+'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { onAuthStateChanged, User, signOut } from 'firebase/auth'; // 1. Import signOut
@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // mengupdate state 'user' menjadi null.
       
       // Arahkan pengguna ke halaman login setelah logout
-      router.replace('/'); // Ganti dengan rute yang sesuai
+      router.replace('/autentikasi'); // Ganti dengan rute yang sesuai
     } catch (error) {
       console.error("Gagal melakukan logout:", error);
       // Anda bisa menambahkan notifikasi error untuk pengguna di sini
