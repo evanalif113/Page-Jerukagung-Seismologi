@@ -2,7 +2,7 @@ import { CloudSun, LineChart, FlaskRoundIcon as Flask, ArrowRight } from "lucide
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-export default function BeritaPage() {
+export default function BerandaPage() {
   return (
     <>
       <div className="mainpage">
@@ -20,9 +20,9 @@ export default function BeritaPage() {
       <section className="bg-primary-50 dark:bg-gray-900 py-8">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-medium text-primary-700 dark:text-primary-300">Berita & Pembaruan</h2>
+            <h2 className="text-2xl font-medium text-primary-700 dark:text-primary-300">Publikasi</h2>
             <Link
-              href="/berita"
+              href="/publikasi"
               className="text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 flex items-center text-sm font-medium"
             >
               Lihat Semua <ArrowRight className="ml-1 h-4 w-4" />

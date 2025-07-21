@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { RefreshCw, Download, ThermometerSun, Droplets, Gauge, CloudDrizzle, BatteryCharging, ScatterChart } from "lucide-react"
 import ChartComponent from "@/components/ChartComponent"
 
-export default function GrafikPage() {
+export default function AnalisisPage() {
   // State for data
   const [timestamps, setTimestamps] = useState<string[]>([])
   const [temperatures, setTemperatures] = useState<number[]>([])
@@ -241,16 +241,10 @@ export default function GrafikPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-medium text-primary-700 dark:text-primary-300 mb-2">Grafik Data Cuaca</h1>
-        <p className="text-gray-600 dark:text-gray-300">
-          Visualisasi data cuaca dari stasiun pemantauan Jerukagung Meteorologi.
-        </p>
-      </div>
 
       <Card className="mb-6">
         <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-gray-50 dark:bg-gray-800 border-b">
-          <CardTitle className="text-xl">Pengaturan Grafik</CardTitle>
+          <CardTitle className="text-xl">Pengaturan Analisis Data</CardTitle>
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <Select value={sensorId} onValueChange={setSensorId}>
               <SelectTrigger className="w-full sm:w-[180px]">

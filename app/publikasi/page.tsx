@@ -8,7 +8,7 @@ export default function Home() {
 <section className="bg-primary-50 dark:bg-gray-900 py-8">
 <div className="container mx-auto px-4">
   <div className="flex items-center justify-between mb-6">
-    <h2 className="text-2xl font-medium text-primary-700 dark:text-primary-300">Berita & Pembaruan</h2>
+    <h2 className="text-2xl font-medium text-primary-700 dark:text-primary-300">Publikasi</h2>
   </div>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
     {[
@@ -67,5 +67,5 @@ export default function Home() {
 </div>
 </section>
 </>
-    )
-    }
+)
+}

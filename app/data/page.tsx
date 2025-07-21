@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 // Import icons dari lucide-react
-import { RefreshCw, Download, ThermometerSun, Droplets, Gauge, Trash2 } from "lucide-react";
+import { RefreshCw, Download, ThermometerSun, Droplets, Gauge, Sprout, Trash2 } from "lucide-react";
 // Import ChartComponent
 import ChartComponent from "@/components/ChartComponent";
 
@@ -260,12 +260,13 @@ export default function DataPage() {
       y: data,
       type: "scatter",
       mode: "lines+markers",
+      marker: { color },
       name: title,
-      line: { color },
+      line: { color, width: 3 },
     }];
     const layout = {
       ...commonLayout,
-      title: { text: title, font: { size: 16 } },
+      //title: { text: title, font: { size: 14 } },
       yaxis: { ...commonLayout.yaxis, title: { ...commonLayout.yaxis.title, text: unit }, range: yDomain },
     };
 
@@ -296,7 +297,7 @@ export default function DataPage() {
       {/* Global Controls Card */}
       <Card className="mb-6">
         <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-gray-50 dark:bg-gray-800 border-b">
-          <CardTitle className="text-xl">Pengaturan Data & Grafik</CardTitle>
+          <CardTitle className="text-xl">Fetching Data</CardTitle>
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
             {/* Sensor Select */}
             <Select value={sensorId} onValueChange={setSensorId}>
@@ -443,8 +444,8 @@ export default function DataPage() {
             <div className="space-y-6">
               <ChartCard title="Suhu Lingkungan (°C)" data={temperatures} color="#ef4444" Icon={ThermometerSun} unit="Suhu (°C)" />
               <ChartCard title="Kelembapan Relatif (%)" data={humidity} color="#3b82f6" Icon={Droplets} unit="Kelembapan (%)" />
-              <ChartCard title="Tekanan Udara (hPa)" data={pressure} color="#10b981" Icon={Gauge} unit="Tekanan (hPa)" />
-              <ChartCard title="Titik Embun (°C)" data={dew} color="#f59e0b" Icon={ThermometerSun} unit="Titik Embun (°C)" />
+              <ChartCard title="Tekanan Udara (hPa)" data={pressure} color="#f59e0b" Icon={Gauge} unit="Tekanan (hPa)" />
+              <ChartCard title="Titik Embun (°C)" data={dew} color="#10b981" Icon={Sprout} unit="Titik Embun (°C)" />
             </div>
           )}
         </>
