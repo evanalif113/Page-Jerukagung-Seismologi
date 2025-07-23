@@ -61,7 +61,7 @@ export default function RootLayout({
     <html lang="id">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <Header />
+          <Header /> 
           <Navbar/>
           {children}
           <Analytics />
