@@ -17,9 +17,7 @@ export default function Navbar() {
   const navItems = [
     { name: "Beranda", href: "/" },
     { name: "Katalog", href: "/katalog" },
-    { name: "Tim Kami", href: "/timkami" },
-    { name: "Data", href: "/data" },
-    { name: "Analisis", href: "/analisis" },
+    { name: "Tim Kami", href: "/timkami" }
   ]
 
   return (
@@ -94,7 +92,7 @@ export default function Navbar() {
 
           {/* Login Button */}
           <div className="hidden md:flex items-center">
-            <Link href="/autentikasi" passHref>
+            <Link href="/login" passHref>
               <Button variant="outline">Login</Button>
             </Link>
           </div>

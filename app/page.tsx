@@ -1,10 +1,15 @@
 import { CloudSun, LineChart, FlaskRoundIcon as Flask, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import Header from "@/components/header"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 
 export default function BerandaPage() {
   return (
     <>
+      <Header />
+      <Navbar />
       <div className="mainpage">
         <div className="mainpagetext">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Selamat Datang di Pusat Informasi Jerukagung Seismologi</h1>
@@ -143,6 +148,7 @@ export default function BerandaPage() {
           </Button>
         </div>
       </section>
+      <Footer />
     </>
   )
 }

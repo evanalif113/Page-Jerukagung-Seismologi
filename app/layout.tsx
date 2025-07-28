@@ -3,12 +3,8 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Inter } from "next/font/google"
 import "./globals.css"
-import Header from "@/components/header"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 
-// Using Roboto which is similar to the WMO's font choice
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -61,12 +57,9 @@ export default function RootLayout({
     <html lang="id">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <Header /> 
-          <Navbar/>
           {children}
           <Analytics />
           <SpeedInsights />
-          <Footer/>
         </ThemeProvider>
       </body>
     </html>

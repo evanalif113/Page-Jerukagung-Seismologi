@@ -1,13 +1,13 @@
 // lib/fetchSensorData.ts
+import { rtdb } from "@/lib/FirebaseConfig"; // Mengimpor instance Realtime Database yang sudah diinisialisasi
 import {
-  database,
   ref,
   query,
   orderByKey,
   limitToLast,
   get,
   remove
-} from "@/lib/firebaseConfig";
+} from "firebase/database"; // Ini adalah fungsi-fungsi dari Firebase Realtime Database SDK
 
 export interface SensorValue {
   temperature: number;
@@ -37,7 +37,7 @@ export async function fetchSensorData(
   console.log("fetchSensorData called with:", { sensorId, limit });
   try {
     const dataRef = query(
-      ref(database, `auto_weather_stat/${sensorId}/data`),
+      ref(rtdb, `auto_weather_stat/${sensorId}/data`),
       orderByKey(),
       limitToLast(limit)
     );
@@ -121,7 +121,7 @@ export async function fetchSensorData(
 export async function deleteSensorData(sensorId: string): Promise<void> {
   console.log(`deleteSensorData called for sensorId: ${sensorId}`);
   try {
-    const dataRef = ref(database, `auto_weather_stat/${sensorId}/data`);
+    const dataRef = ref(rtdb, `auto_weather_stat/${sensorId}/data`);
     await remove(dataRef);
     console.log(`Successfully deleted data for sensor ${sensorId}`);
   } catch (error) {

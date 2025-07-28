@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 // Import fetchSensorData dari library
-import { fetchSensorData, deleteSensorData, SensorDate } from "@/lib/fetchSensorData";
+import { fetchSensorData, deleteSensorData, SensorDate } from "@/lib/FetchSensorData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
