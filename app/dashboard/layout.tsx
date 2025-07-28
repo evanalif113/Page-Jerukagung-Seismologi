@@ -3,7 +3,7 @@
 import type React from "react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { LayoutDashboard, Settings, FileText, BarChart3, User } from "lucide-react"
+import { LayoutDashboard, Settings, FileText, BarChart3, ChartNoAxesCombined, User } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
 import { signOutUser } from "@/lib/FetchingAuth"
 import LoadingSpinner from "@/components/LoadingSpinner"
@@ -48,7 +48,7 @@ export default function DashboardLayout({
     { name: "Beranda", href: "/dashboard", icon: LayoutDashboard },
     { name: "Perangkat", href: "/dashboard/perangkat", icon: Settings },
     { name: "Grafik", href: "/dashboard/data", icon: BarChart3 },
-    { name: "Analisis", href: "/dashboard/analisis", icon: BarChart3 },
+    { name: "Analisis", href: "/dashboard/analisis", icon: ChartNoAxesCombined },
     { name: "Log", href: "/dashboard/logs", icon: FileText },
     { name: "Profil", href: "/dashboard/profil", icon: User },
   ]
@@ -60,7 +60,8 @@ export default function DashboardLayout({
 
       {/* Main content */}
       <div className="lg:pl-64">
-        <Topbar user={user} profile={profile} setSidebarOpen={setSidebarOpen} handleLogout={handleLogout} />
+          <Topbar user={user} profile={profile} setSidebarOpen={setSidebarOpen} handleLogout={handleLogout} />
+
 
         {/* Page content */}
         <main className="py-6">
