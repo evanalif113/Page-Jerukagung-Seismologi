@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { onAuthStateChanged, User, signOut } from 'firebase/auth'; // 1. Import signOut
-import { auth } from '@/lib/FirebaseConfig';
+import { auth } from '@/lib/firebaseConfig';
 import { useRouter } from 'next/navigation'; // 2. Import useRouter
 
 // 3. Tambahkan 'logout' ke dalam tipe interface

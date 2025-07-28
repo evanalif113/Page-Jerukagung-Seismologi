@@ -9,7 +9,7 @@ import {
   type AuthError,
 } from "firebase/auth";
 import { doc, setDoc, getDoc, Timestamp, updateDoc, deleteDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/FirebaseConfig"; // Mengimpor instance 'auth' dan 'db' yang sudah diinisialisasi
+import { auth, db } from "@/lib/firebaseConfig"; // Mengimpor instance 'auth' dan 'db' yang sudah diinisialisasi
 
 export interface UserProfile {
   uid: string
