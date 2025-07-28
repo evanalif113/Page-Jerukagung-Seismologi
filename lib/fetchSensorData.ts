@@ -1,5 +1,5 @@
 // lib/fetchSensorData.ts
-import { rtdb } from "@/lib/FirebaseConfig"; // Mengimpor instance Realtime Database yang sudah diinisialisasi
+import { rtdb } from "@/lib/ConfigFirebase"; // Mengimpor instance Realtime Database yang sudah diinisialisasi
 import {
   ref,
   query,

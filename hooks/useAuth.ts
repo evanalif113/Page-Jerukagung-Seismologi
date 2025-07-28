@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { type User, onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/lib/FirebaseConfig"; // Ini sudah benar, mengimpor instance auth
+import { auth } from "@/lib/ConfigFirebase"; // Ini sudah benar, mengimpor instance auth
 import { getUserProfile, type UserProfile } from "@/lib/FetchingAuth"; // Asumsi ini juga sudah benar
 
 export interface AuthState {

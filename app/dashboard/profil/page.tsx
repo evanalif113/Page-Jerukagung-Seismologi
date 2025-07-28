@@ -11,7 +11,7 @@ import {
   deleteUserAccount,
   type UserProfile,
 } from "@/lib/FetchingAuth"
-import { auth } from "@/lib/FirebaseConfig"
+import { auth } from "@/lib/ConfigFirebase"
 import { Timestamp } from "firebase/firestore"
 import LoadingSpinner from "@/components/LoadingSpinner"
 
