@@ -138,9 +138,9 @@ const ProfilePage = () => {
     <div className="container mx-auto max-w-4xl space-y-8 p-4">
       {/* Profile Info */}
       <div className="rounded-lg bg-white p-6 shadow-md">
-        <h1 className="mb-4 text-2xl font-bold">User Profile</h1>
+        <h1 className="mb-4 text-2xl font-bold">Profil Pengguna</h1>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <p><strong>Display Name:</strong> {userProfile.displayName}</p>
+          <p><strong>Nama</strong> {userProfile.displayName}</p>
           <p><strong>Email:</strong> {userProfile.email}</p>
           <p><strong>Role:</strong> <span className="rounded-full bg-blue-100 px-2 py-1 text-sm text-blue-800">{userProfile.role}</span></p>
           <p><strong>Member since:</strong> {formatDate(userProfile.createdAt)}</p>
@@ -150,7 +150,7 @@ const ProfilePage = () => {
 
       {/* Edit Profile */}
       <div className="rounded-lg bg-white p-6 shadow-md">
-        <h2 className="mb-4 text-xl font-bold">Edit Profile</h2>
+        <h2 className="mb-4 text-xl font-bold">Edit Profil</h2>
         <form onSubmit={handleProfileUpdate} className="space-y-4">
           <div>
             <label htmlFor="displayName" className="block text-sm font-medium text-gray-700">Display Name</label>

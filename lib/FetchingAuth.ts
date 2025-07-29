@@ -17,7 +17,7 @@ export interface UserProfile {
   displayName: string
   createdAt: Date | Timestamp
   lastLoginAt: Date | Timestamp
-  role: "admin" | "user"
+  role: "Admin" | "User"
 }
 
 // Sign up with email and password
@@ -40,7 +40,7 @@ export const signUpWithEmail = async (
       displayName,
       createdAt: new Date(),
       lastLoginAt: new Date(),
-      role: "user",
+      role: "User",
     }
 
     await setDoc(doc(db, "users", user.uid), userProfile)
@@ -81,7 +81,7 @@ export const signInWithEmail = async (
         displayName: user.displayName || email.split("@")[0],
         createdAt: new Date(),
         lastLoginAt: new Date(),
-        role: "user",
+        role: "User",
       }
       await setDoc(userDocRef, userProfile)
       return { user, profile: userProfile }
