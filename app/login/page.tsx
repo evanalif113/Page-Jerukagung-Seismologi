@@ -260,7 +260,7 @@ export default function AuthPage() {
             />
           </div>
           <CardTitle className="text-2xl font-bold text-gray-900">
-            Tenki Sensei
+            Meteo Sense
           </CardTitle>
           <CardDescription className="text-gray-600">
             {isSignUp
