@@ -79,11 +79,11 @@ export default function Navbar() {
                   ))}
                 </div>
                 <div className="mt-6 border-t pt-4 flex items-center justify-between">
-                  <Link href="/autentikasi" passHref>
+                  {/* <Link href="/autentikasi" passHref>
                     <Button variant="outline" onClick={() => setIsOpen(false)}>
                       Login
                     </Button>
-                  </Link>
+                  </Link> */}
                   <ThemeToggle />
                 </div>
               </SheetContent>
@@ -91,11 +91,11 @@ export default function Navbar() {
           </div>
 
           {/* Login Button */}
-          <div className="hidden md:flex items-center">
+          {/* <div className="hidden md:flex items-center">
             <Link href="/login" passHref>
               <Button variant="outline">Login</Button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </nav>
