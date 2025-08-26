@@ -1,4 +1,4 @@
-import { CloudSun, LineChart, FlaskRoundIcon as Flask, ArrowRight } from "lucide-react"
+import { CloudSun, LineChart, FlaskRoundIcon, Server, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Header from "@/components/header"
@@ -93,16 +93,16 @@ export default function BerandaPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="bg-white dark:bg-gray-900 rounded-md shadow-sm p-6 border-t-4 border-primary-500">
               <div className="flex justify-center mb-4">
                 <div className="bg-primary-50 dark:bg-primary-900/20 p-3 rounded-full">
                   <CloudSun className="h-8 w-8 text-primary-500" />
                 </div>
               </div>
-              <h3 className="text-xl font-medium text-center mb-3 text-gray-900 dark:text-white">Pemantauan Cuaca</h3>
+              <h3 className="text-xl font-medium text-center mb-3 text-gray-900 dark:text-white">Pemantauan Fenomena Iklim</h3>
               <p className="text-gray-600 dark:text-gray-300 text-center">
-                Data cuaca terkini hasil dari pengamatan untuk memahami kondisi atmosfer di wilayah Jerukagung.
+                Pengamatan fenomena iklim untuk memahami dinamika lingkungan hidup dan perubahan iklim
               </p>
             </div>
 
@@ -121,7 +121,7 @@ export default function BerandaPage() {
             <div className="bg-white dark:bg-gray-900 rounded-md shadow-sm p-6 border-t-4 border-primary-500">
               <div className="flex justify-center mb-4">
                 <div className="bg-primary-50 dark:bg-primary-900/20 p-3 rounded-full">
-                  <Flask className="h-8 w-8 text-primary-500" />
+                  <FlaskRoundIcon className="h-8 w-8 text-primary-500" />
                 </div>
               </div>
               <h3 className="text-xl font-medium text-center mb-3 text-gray-900 dark:text-white">
@@ -131,6 +131,19 @@ export default function BerandaPage() {
                 Berpartisipasi dalam penelitian dan pengembangan dengan berbagai lintas bidang ilmu pengetahuan.
               </p>
             </div>
+
+            <div className="bg-white dark:bg-gray-900 rounded-md shadow-sm p-6 border-t-4 border-primary-500">
+              <div className="flex justify-center mb-4">
+                <div className="bg-primary-50 dark:bg-primary-900/20 p-3 rounded-full">
+                  <Server className="h-8 w-8 text-primary-500" />
+                </div>
+              </div>
+              <h3 className="text-xl font-medium text-center mb-3 text-gray-900 dark:text-white">Pernyimpanan Data</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-center">
+                Penyimpanan data untuk memberikan akses penelitian dan pengembangan yang lebih baik.
+              </p>
+            </div>
+
           </div>
         </div>
       </section>
