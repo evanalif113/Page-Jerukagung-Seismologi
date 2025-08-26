@@ -8,22 +8,22 @@ export default function TimKamiPage() {
   const teamMembers = [
     {
       name: "Evan Alif Widhyatma",
-      role: "Research Assist",
-      image: "https://avatars.githubusercontent.com/u/56740250?v=4",
+      role: "Project Manager, Research Assist, Frontend Developer",
+      image: "https://media.licdn.com/dms/image/v2/D5603AQFVFvglk8kC3w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1727273555054?e=1759363200&v=beta&t=asdFwG7CHmSbOz2mSGlkmuoGuH9hAqRqYOcrO-nPFjk",
       github: "https://github.com/evanalif113",
       linkedin: "https://www.linkedin.com/in/evan-alif-widhyatma-5b3a5a1b3/",
     },
     {
       name: "Muhammad Rizal Arfiyan",
-      role: "Backend Developer",
-      image: "https://avatars.githubusercontent.com/u/19503666?v=4",
+      role: "Fullstack Developer",
+      image: "https://media.licdn.com/dms/image/v2/C5603AQE_j87VeQpSCg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1627974909878?e=1759363200&v=beta&t=Ea22dBD3GxYzFClSZ8MGGXBEUl6JRMqoCXzD8GuDnhg",
       github: "https://github.com/rizalarfiyan",
       linkedin: "https://www.linkedin.com/in/rizalarfiyan/",
     },
     {
       name: "Bagus Alfian Yusuf",
-      role: "Software Developer",
-      image: "https://avatars.githubusercontent.com/u/59005468?v=4",
+      role: "Mobile developer, Fullstack Developer, DevOps",
+      image: "https://media.licdn.com/dms/image/v2/D5635AQEy3tF646IcaA/profile-framedphoto-shrink_800_800/B56ZeJMh6LG0Aw-/0/1750353453234?e=1756836000&v=beta&t=3fWkLPXPuEpX3nmYu-GkYWNiUqNo13eFiR0gyG5Oi7o",
       github: "https://github.com/Fiyanz",
       linkedin: "https://www.linkedin.com/in/fiyanz/",
     },
@@ -38,7 +38,7 @@ export default function TimKamiPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {teamMembers.map((member, index) => (
             <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="relative h-64">
+              <div className="relative h-96 w-full">
                 <Image src={member.image || "/placeholder.svg"} alt={member.name} fill className="object-cover" />
               </div>
               <div className="p-6 text-center">

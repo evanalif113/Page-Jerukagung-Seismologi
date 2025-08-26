@@ -12,9 +12,9 @@ export default function BerandaPage() {
       <Navbar />
       <div className="mainpage">
         <div className="mainpagetext">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Selamat Datang di Pusat Informasi Jerukagung Seismologi</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Selamat Datang di Pusat Informasi Laboratorium Jerukagung</h1>
           <p className="text-xl md:text-2xl drop-shadow-lg mb-8">
-            Penelitian dan Pengembangan Instrumen Pemantauan Sains Atmosfer
+            Penelitian dan Pengembangan Instrumentasi
           </p>
           <div className="flex flex-wrap justify-center gap-4">
           </div>

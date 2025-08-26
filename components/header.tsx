@@ -15,7 +15,7 @@ export default function Header() {
             </div>
             <div>
               <h1 className="text-lg font-medium leading-tight text-white">Jerukagung Seismologi</h1>
-              <p className="text-xs text-white">Riset dan Pengembangan Ilmu Kebumian</p>
+              <p className="text-xs text-white">Riset dan Pengembangan Produk Instrumentasi</p>
             </div>
           </Link>
           <div className="hidden md:flex items-center space-x-4">

@@ -11,23 +11,18 @@ function NavigationLinks() {
         </Link>
       </li>
       <li>
-        <Link href="/riset" className="text-primary-100 hover:text-white text-sm">
-          Riset
+        <Link href="/katalog" className="text-primary-100 hover:text-white text-sm">
+          Katalog
         </Link>
       </li>
       <li>
-        <Link href="/timkami" className="text-primary-100 hover:text-white text-sm">
+        <Link href="/teams" className="text-primary-100 hover:text-white text-sm">
           Tim Kami
         </Link>
       </li>
       <li>
-        <Link href="/data" className="text-primary-100 hover:text-white text-sm">
-          Data
-        </Link>
-      </li>
-      <li>
-        <Link href="/grafik" className="text-primary-100 hover:text-white text-sm">
-          Grafik
+        <Link href="/publikasi" className="text-primary-100 hover:text-white text-sm">
+          Publikasi
         </Link>
       </li>
     </ul>
@@ -48,7 +43,7 @@ export default function Footer() {
                 <span className="text-lg font-medium">Jerukagung Seismologi</span>
               </div>
               <p className="text-sm text-primary-100 mb-4">
-                Pusat Riset dan Pengembangan Ilmu Kebumian.
+                Pusat Riset dan Pengembangan Produk Instrumentasi.
               </p>
               <div className="flex space-x-3">
                 <a href="#" className="bg-white/10 hover:bg-white/20 p-2 rounded-full">
