@@ -17,7 +17,7 @@ export default function Navbar() {
   const navItems = [
     { name: "Beranda", href: "/" },
     { name: "Katalog", href: "/katalog" },
-    { name: "Tim Kami", href: "/timkami" }
+    { name: "Tim Kami", href: "/teams" }
   ]
 
   return (

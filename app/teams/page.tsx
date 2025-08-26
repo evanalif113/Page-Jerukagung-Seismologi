@@ -23,7 +23,7 @@ export default function TimKamiPage() {
     {
       name: "Bagus Alfian Yusuf",
       role: "Mobile developer, Fullstack Developer, DevOps",
-      image: "https://media.licdn.com/dms/image/v2/D5635AQEy3tF646IcaA/profile-framedphoto-shrink_800_800/B56ZeJMh6LG0Aw-/0/1750353453234?e=1756836000&v=beta&t=3fWkLPXPuEpX3nmYu-GkYWNiUqNo13eFiR0gyG5Oi7o",
+      image: "https://media.licdn.com/dms/image/v2/D5603AQG19RCrdc0cfg/profile-displayphoto-shrink_800_800/B56ZTQlMUtGsAg-/0/1738666198992?e=1759363200&v=beta&t=x9L-l3CbK1RmfYO1XCDrBAILwxqWiIwiM3QNKbz_NEg",
       github: "https://github.com/Fiyanz",
       linkedin: "https://www.linkedin.com/in/fiyanz/",
     },
