@@ -88,8 +88,7 @@ export default function BerandaPage() {
           <div className="text-center mb-10">
             <h2 className="text-3xl font-medium text-primary-700 dark:text-primary-300 mb-4">Layanan Kami</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Kami berfokus pada penelitian dan pengembangan dalam pemantauan cuaca dan iklim untuk memberikan informasi
-              yang akurat dan terpercaya.
+              Kami berfokus pada penelitian dan pengembangan instrumentasi kebumian
             </p>
           </div>
 
