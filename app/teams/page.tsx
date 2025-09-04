@@ -30,26 +30,26 @@ export default function TimKamiPage() {
   ]
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
       <Header />
       <Navbar />
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold text-center mb-8">Tim Riset</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 text-black dark:text-white">Tim Riset</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {teamMembers.map((member, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
               <div className="relative h-96 w-full">
                 <Image src={member.image || "/placeholder.svg"} alt={member.name} fill className="object-cover" />
               </div>
               <div className="p-6 text-center">
                 <h5 className="text-xl font-semibold mb-1">{member.name}</h5>
-                <p className="mb-4">{member.role}</p>
+                <p className="mb-4 text-gray-600 dark:text-gray-300">{member.role}</p>
                 <div className="flex justify-center gap-4">
                   <a
                     href={member.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border border-gray-300 rounded-md px-4 py-2 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800"
+                    className="inline-flex items-center gap-2 border border-gray-300 rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
                     <Github className="h-4 w-4" /> Github
                   </a>
@@ -68,6 +68,6 @@ export default function TimKamiPage() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   )
 }

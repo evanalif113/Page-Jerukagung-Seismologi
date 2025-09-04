@@ -12,7 +12,7 @@ export default function BerandaPage() {
       <Navbar />
       <div className="mainpage">
         <div className="mainpagetext">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Selamat Datang di Pusat Informasi Laboratorium Jerukagung</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Selamat Datang di Pusat Informasi Laboratorium Jerukagung Seismologi</h1>
           <p className="text-xl md:text-2xl drop-shadow-lg mb-8">
             Penelitian dan Pengembangan Instrumentasi
           </p>
@@ -99,9 +99,9 @@ export default function BerandaPage() {
                   <CloudSun className="h-8 w-8 text-primary-500" />
                 </div>
               </div>
-              <h3 className="text-xl font-medium text-center mb-3 text-gray-900 dark:text-white">Pemantauan Fenomena Iklim</h3>
+              <h3 className="text-xl font-medium text-center mb-3 text-gray-900 dark:text-white">Pemantauan Fenomena Alam</h3>
               <p className="text-gray-600 dark:text-gray-300 text-center">
-                Pengamatan fenomena iklim untuk memahami dinamika lingkungan hidup dan perubahan iklim
+                Pengamatan fenomena alam untuk memahami dinamika lingkungan hidup dan perubahan 
               </p>
             </div>
 
