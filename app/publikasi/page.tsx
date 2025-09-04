@@ -1,10 +1,14 @@
-import { CloudSun, LineChart, FlaskRoundIcon as Flask, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import Navbar from "@/components/navbar"
 
 export default function Home() {
   return (
     <>
 {/* News and Updates Section */}
+      <Header />
+            <Navbar />
 <section className="bg-primary-50 dark:bg-gray-900 py-8">
 <div className="container mx-auto px-4">
   <div className="flex items-center justify-between mb-6">
@@ -66,6 +70,7 @@ export default function Home() {
     </div>
 </div>
 </section>
+<Footer />
 </>
 )
 }
