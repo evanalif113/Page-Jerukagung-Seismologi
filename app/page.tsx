@@ -113,7 +113,7 @@ export default function BerandaPage() {
               </div>
               <h3 className="text-xl font-medium text-center mb-3 text-gray-900 dark:text-white">Analisis Data</h3>
               <p className="text-gray-600 dark:text-gray-300 text-center">
-                Analisis mendalam terhadap data iklim untuk memberikan wawasan yang lebih baik tentang perubahan cuaca.
+                Analisis mendalam terhadap data kebumian untuk memberikan wawasan yang lebih baik tentang fenomena alam.
               </p>
             </div>
 
