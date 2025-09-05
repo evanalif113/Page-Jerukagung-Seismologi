@@ -15,14 +15,14 @@ function NavigationLinks() {
           Katalog
         </Link>
       </li>
-      <li>
-        <Link href="/teams" className="text-primary-100 hover:text-white text-sm">
-          Tim Kami
+            <li>
+        <Link href="/publikasi" className="text-primary-100 hover:text-white text-sm">
+          Publikasi
         </Link>
       </li>
       <li>
-        <Link href="/publikasi" className="text-primary-100 hover:text-white text-sm">
-          Publikasi
+        <Link href="/teams" className="text-primary-100 hover:text-white text-sm">
+          Tim Kami
         </Link>
       </li>
     </ul>
